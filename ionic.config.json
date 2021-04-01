@@ -1,0 +1,8 @@
+{
+  "name": "My Restaurant",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "93727e7e"
+}

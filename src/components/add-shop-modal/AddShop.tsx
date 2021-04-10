@@ -17,8 +17,23 @@ import {useState} from "react";
 import {arrowBack, checkmarkOutline, refreshOutline} from "ionicons/icons";
 
 const AddShop: React.FC<any> = ({isOpen, onClose}) => {
-    const [name, setName] = useState<string>();
-    const [desc, setDesc] = useState<string>();
+    const initFormValue = {
+        name:'',
+        desc: '',
+    }
+    const [formValue, setFormValue] = useState(initFormValue);
+    const handleIonChange = (event: any) => {
+        setFormValue(prevState =>  ({
+            ...prevState,
+            [event.target.name]: event.target.value
+        } ))
+    }
+    const onSubmit = () => {
+        console.log(formValue);
+    }
+    const onReset = () => {
+        setFormValue(initFormValue);
+    }
     return (
         <IonModal backdropDismiss={true} isOpen={isOpen} cssClass='flexible-modal'>
             <IonHeader>
@@ -35,22 +50,22 @@ const AddShop: React.FC<any> = ({isOpen, onClose}) => {
                 <IonList>
                     <IonItem>
                         <IonLabel position="floating">Name</IonLabel>
-                        <IonInput value={name} onIonChange={e => setName(e.detail.value!)} />
+                        <IonInput name="name" value={formValue.name} onIonChange={e => handleIonChange(e)} />
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Description</IonLabel>
-                        <IonTextarea rows={4} value={desc} onIonChange={e => setDesc(e.detail.value!)} />
+                        <IonTextarea name="desc" rows={4} value={formValue.desc} onIonChange={e => handleIonChange(e)} />
                     </IonItem>
                 </IonList>
             </IonContent>
             <IonFooter id="modal-footer">
                 <IonToolbar>
                     <IonButtons slot="primary">
-                        <IonButton size="large" fill="outline" color="medium" >
+                        <IonButton size="large" fill="outline" color="medium" onClick={() => onReset()}>
                             <IonIcon slot="start" icon={refreshOutline} />
                             RESET
                         </IonButton>
-                        <IonButton size="large" fill="outline" color="primary" >
+                        <IonButton size="large" fill="outline" color="primary" onClick={() => onSubmit()} >
                             <IonIcon slot="start" icon={checkmarkOutline} />
                             SAVE
                         </IonButton>

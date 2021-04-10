@@ -1,41 +1,43 @@
 import {
     IonButton,
     IonButtons,
-    IonContent, IonFooter,
+    IonContent,
+    IonFooter,
     IonHeader,
     IonIcon,
     IonInput,
     IonItem,
     IonLabel,
     IonList,
-    IonModal, IonTextarea,
+    IonModal,
+    IonTextarea,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
 import './AddShop.css';
-import {useState} from "react";
+import React from "react";
 import {arrowBack, checkmarkOutline, refreshOutline} from "ionicons/icons";
+import {Controller, SubmitHandler, useForm} from 'react-hook-form';
+import {ShopModel} from "../../models/shop.model";
+
 
 const AddShop: React.FC<any> = ({isOpen, onClose}) => {
-    const initFormValue = {
-        name:'',
+    const initFormValue: ShopModel = {
+        name: '',
         desc: '',
     }
-    const [formValue, setFormValue] = useState(initFormValue);
-    const handleIonChange = (event: any) => {
-        setFormValue(prevState =>  ({
-            ...prevState,
-            [event.target.name]: event.target.value
-        } ))
-    }
-    const onSubmit = () => {
+    const {control, handleSubmit, reset, formState} = useForm<ShopModel>({
+        defaultValues: initFormValue,
+        mode: "onChange"
+    });
+    const onSubmit: SubmitHandler<ShopModel> = (formValue: ShopModel) => {
         console.log(formValue);
     }
     const onReset = () => {
-        setFormValue(initFormValue);
+        reset();
     }
     return (
-        <IonModal backdropDismiss={true} isOpen={isOpen} cssClass='flexible-modal'>
+        <IonModal isOpen={isOpen} cssClass='flexible-modal'>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
@@ -46,32 +48,49 @@ const AddShop: React.FC<any> = ({isOpen, onClose}) => {
                     <IonTitle>ADD SHOP</IonTitle>
                 </IonToolbar>
             </IonHeader>
+
             <IonContent className="ion-padding">
-                <IonList>
-                    <IonItem>
-                        <IonLabel position="floating">Name</IonLabel>
-                        <IonInput name="name" value={formValue.name} onIonChange={e => handleIonChange(e)} />
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Description</IonLabel>
-                        <IonTextarea name="desc" rows={4} value={formValue.desc} onIonChange={e => handleIonChange(e)} />
-                    </IonItem>
-                </IonList>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <IonList>
+                        <IonItem>
+                            <IonLabel position="floating">Name</IonLabel>
+                            <Controller
+                                name="name"
+                                control={control}
+                                render={({field}) => <IonInput name="name" value={field.value}
+                                                               onIonChange={e => field.onChange(e.detail.value!)}/>}
+                                rules={{required: true}}
+                            />
+                        </IonItem>
+                        <IonItem>
+                            <IonLabel position="floating">Description</IonLabel>
+                            <Controller
+                                name="desc"
+                                control={control}
+                                render={({field}) => <IonTextarea name="desc" value={field.value} rows={4}
+                                                                  onIonChange={e => field.onChange(e.detail.value!)}/>}
+                                rules={{required: true}}
+                            />
+                        </IonItem>
+                    </IonList>
+                    <IonFooter id="modal-footer">
+                        <IonToolbar>
+                            <IonButtons slot="primary">
+                                <IonButton type="button" size="large" fill="outline" color="medium"
+                                           onClick={() => onReset()}>
+                                    <IonIcon slot="start" icon={refreshOutline}/>
+                                    RESET
+                                </IonButton>
+                                <IonButton disabled={!formState.isValid} type="submit" size="large" fill="outline"
+                                           color="primary">
+                                    <IonIcon slot="start" icon={checkmarkOutline}/>
+                                    SAVE
+                                </IonButton>
+                            </IonButtons>
+                        </IonToolbar>
+                    </IonFooter>
+                </form>
             </IonContent>
-            <IonFooter id="modal-footer">
-                <IonToolbar>
-                    <IonButtons slot="primary">
-                        <IonButton size="large" fill="outline" color="medium" onClick={() => onReset()}>
-                            <IonIcon slot="start" icon={refreshOutline} />
-                            RESET
-                        </IonButton>
-                        <IonButton size="large" fill="outline" color="primary" onClick={() => onSubmit()} >
-                            <IonIcon slot="start" icon={checkmarkOutline} />
-                            SAVE
-                        </IonButton>
-                    </IonButtons>
-                </IonToolbar>
-            </IonFooter>
         </IonModal>
     );
 };

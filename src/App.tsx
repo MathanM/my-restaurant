@@ -24,6 +24,8 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import './App.css';
+import Login from "./pages/login/Login";
+import { withAuthenticator } from '@aws-amplify/ui-react'
 
 const App: React.FC = () => {
   return (
@@ -41,6 +43,9 @@ const App: React.FC = () => {
             <Route path="/recipes" exact={true}>
               <Recipes />
             </Route>
+            <Route path="/login" exact={true}>
+              <Login />
+            </Route>
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
@@ -48,4 +53,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default withAuthenticator(App);

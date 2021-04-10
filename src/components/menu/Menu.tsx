@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 
 import {useLocation} from 'react-router-dom';
-import {businessOutline, businessSharp} from 'ionicons/icons';
+import {business, businessOutline, clipboard, clipboardOutline} from 'ionicons/icons';
 import './Menu.css';
 
 interface AppPage {
@@ -26,7 +26,13 @@ const appPages: AppPage[] = [
     title: 'SHOPS',
     url: '/home',
     iosIcon: businessOutline,
-    mdIcon: businessSharp
+    mdIcon: business
+  },
+  {
+    title: 'RECIPE LIST',
+    url: '/recipes',
+    iosIcon: clipboardOutline,
+    mdIcon: clipboard
   },
 ];
 

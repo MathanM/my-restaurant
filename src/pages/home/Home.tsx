@@ -14,9 +14,16 @@ import './Home.css';
 import {add} from "ionicons/icons";
 import {useState} from "react";
 import AddShop from "../../components/add-shop-modal/AddShop";
+import {ShopModel} from "../../models/shop.model";
 
 const Home: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
+    const onModalClose = (data?: ShopModel) => {
+        setShowModal(false);
+        if(data){
+            console.log(data);
+        }
+    }
     return (
         <IonPage>
             <IonHeader>
@@ -33,7 +40,7 @@ const Home: React.FC = () => {
                         <IonIcon icon={add}/>
                     </IonFabButton>
                 </IonFab>
-                <AddShop isOpen={showModal} onClose={() => setShowModal(false)}/>
+                <AddShop isOpen={showModal} onClose={onModalClose}/>
             </IonContent>
         </IonPage>
     );

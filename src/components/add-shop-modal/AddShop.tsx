@@ -21,17 +21,18 @@ import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {ShopModel} from "../../models/shop.model";
 
 
-const AddShop: React.FC<any> = ({isOpen, onClose}) => {
+const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
     const initFormValue: ShopModel = {
         name: '',
         desc: '',
     }
     const {control, handleSubmit, reset, formState} = useForm<ShopModel>({
-        defaultValues: initFormValue,
+        defaultValues: initData || initFormValue,
         mode: "onChange"
     });
     const onSubmit: SubmitHandler<ShopModel> = (formValue: ShopModel) => {
-        console.log(formValue);
+        onClose(formValue);
+        reset();
     }
     const onReset = () => {
         reset();
@@ -41,7 +42,7 @@ const AddShop: React.FC<any> = ({isOpen, onClose}) => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton onClick={onClose}>
+                        <IonButton onClick={() => {onClose()}}>
                             <IonIcon slot="icon-only" icon={arrowBack}/>
                         </IonButton>
                     </IonButtons>

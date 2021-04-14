@@ -1,0 +1,9 @@
+@media (max-width: 767px) {
+    ion-modal.flexible-modal .ion-page{
+        justify-content: flex-end;
+    }
+    ion-modal.flexible-modal .modal-wrapper{
+        background: transparent;
+    }
+}
+

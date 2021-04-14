@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonContent,
   IonIcon,
   IonItem,
@@ -11,8 +12,10 @@ import {
 } from '@ionic/react';
 
 import {useLocation} from 'react-router-dom';
-import {business, businessOutline, clipboard, clipboardOutline} from 'ionicons/icons';
+import {business, businessOutline, clipboard, clipboardOutline, moonOutline, sunnyOutline} from 'ionicons/icons';
 import './Menu.css';
+import React, {useState} from "react";
+import {Plugins} from '@capacitor/core';
 
 interface AppPage {
   url: string;
@@ -38,12 +41,29 @@ const appPages: AppPage[] = [
 
 const Menu: React.FC = () => {
   const location = useLocation();
-
+  const { Storage } = Plugins;
+  const [themeFlag, setThemeFlag] = useState(false);
+  Storage.get({key: 'theme'}).then((data)=>{
+    setThemeFlag(data.value === 'true');
+  });
+  const toggleTheme = () => {
+    setThemeFlag((theme: boolean) => {
+      const flag: boolean = !theme;
+      Storage.set({key: 'theme', value: flag.toString()});
+      document.body.classList.toggle('dark', flag);
+      return flag;
+    });
+  }
   return (
     <IonMenu contentId="main" type="overlay">
       <IonContent>
         <IonList id="menu-list">
-          <IonListHeader>MY RESTAURANT</IonListHeader>
+          <IonListHeader>
+            MY RESTAURANT
+            <IonButton className="dark-btn" onClick={toggleTheme}>
+              <IonIcon slot="icon-only" icon={themeFlag?sunnyOutline:moonOutline}/>
+            </IonButton>
+          </IonListHeader>
           <IonNote>some@email.com</IonNote>
           {appPages.map((appPage, index) => {
             return (

@@ -100,3 +100,6 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+.dark-btn{
+  margin-left: 30px;
+}

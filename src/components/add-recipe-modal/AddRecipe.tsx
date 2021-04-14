@@ -30,16 +30,19 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
         cuisine: ''
     }
     const [step, setStep] = useState(1);
-    const {control, handleSubmit, reset, formState} = useForm<RecipeModel>({
+    const {control, handleSubmit, reset, formState, getValues} = useForm<RecipeModel>({
         defaultValues: initData || initFormValue,
-        mode: "onChange"
+        mode: "onChange",
     });
     const onSubmit: SubmitHandler<RecipeModel> = (formValue: RecipeModel) => {
         onClose(formValue);
         reset();
     }
     const onReset = () => {
-        reset();
+        setStep(1);
+        reset({
+            duration: '00:00'
+        });
     }
     function getSteps(): number[] {
         // @ts-ignore
@@ -121,24 +124,24 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                             </React.Fragment>
                         ))}
                     </IonList>
-                    <IonFooter id="modal-footer">
-                        <IonToolbar>
-                            <IonButtons slot="primary">
-                                <IonButton type="button" size="large" fill="outline" color="medium"
-                                           onClick={() => onReset()}>
-                                    <IonIcon slot="start" icon={refreshOutline}/>
-                                    RESET
-                                </IonButton>
-                                <IonButton disabled={!formState.isValid} type="submit" size="large" fill="outline"
-                                           color="primary">
-                                    <IonIcon slot="start" icon={checkmarkOutline}/>
-                                    SAVE
-                                </IonButton>
-                            </IonButtons>
-                        </IonToolbar>
-                    </IonFooter>
                 </form>
             </IonContent>
+            <IonFooter id="modal-footer">
+                <IonToolbar>
+                    <IonButtons slot="primary">
+                        <IonButton size="large" fill="outline" color="medium"
+                                   onClick={() => onReset()}>
+                            <IonIcon slot="start" icon={refreshOutline}/>
+                            RESET
+                        </IonButton>
+                        <IonButton disabled={!formState.isValid} onClick={() => onSubmit(getValues())} size="large" fill="outline"
+                                   color="primary">
+                            <IonIcon slot="start" icon={checkmarkOutline}/>
+                            SAVE
+                        </IonButton>
+                    </IonButtons>
+                </IonToolbar>
+            </IonFooter>
         </IonModal>
     );
 };

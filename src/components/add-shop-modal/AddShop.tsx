@@ -26,16 +26,16 @@ const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
         name: '',
         desc: '',
     }
-    const {control, handleSubmit, reset, formState} = useForm<ShopModel>({
+    const {control, handleSubmit, reset, formState, getValues} = useForm<ShopModel>({
         defaultValues: initData || initFormValue,
-        mode: "onChange"
+        mode: "onChange",
     });
     const onSubmit: SubmitHandler<ShopModel> = (formValue: ShopModel) => {
         onClose(formValue);
         reset();
     }
     const onReset = () => {
-        reset();
+        reset({});
     }
     return (
         <IonModal isOpen={isOpen} cssClass='flexible-modal'>
@@ -74,24 +74,24 @@ const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
                             />
                         </IonItem>
                     </IonList>
-                    <IonFooter id="modal-footer">
-                        <IonToolbar>
-                            <IonButtons slot="primary">
-                                <IonButton type="button" size="large" fill="outline" color="medium"
-                                           onClick={() => onReset()}>
-                                    <IonIcon slot="start" icon={refreshOutline}/>
-                                    RESET
-                                </IonButton>
-                                <IonButton disabled={!formState.isValid} type="submit" size="large" fill="outline"
-                                           color="primary">
-                                    <IonIcon slot="start" icon={checkmarkOutline}/>
-                                    SAVE
-                                </IonButton>
-                            </IonButtons>
-                        </IonToolbar>
-                    </IonFooter>
                 </form>
             </IonContent>
+            <IonFooter id="modal-footer">
+                <IonToolbar>
+                    <IonButtons slot="primary">
+                        <IonButton size="large" fill="outline" color="medium"
+                                   onClick={() => onReset()}>
+                            <IonIcon slot="start" icon={refreshOutline}/>
+                            RESET
+                        </IonButton>
+                        <IonButton disabled={!formState.isValid} onClick={() => onSubmit(getValues())} size="large" fill="outline"
+                                   color="primary">
+                            <IonIcon slot="start" icon={checkmarkOutline}/>
+                            SAVE
+                        </IonButton>
+                    </IonButtons>
+                </IonToolbar>
+            </IonFooter>
         </IonModal>
     );
 };

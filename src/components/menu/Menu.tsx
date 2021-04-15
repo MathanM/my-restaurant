@@ -11,10 +11,10 @@ import {
   IonNote,
 } from '@ionic/react';
 
-import {useLocation} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {business, businessOutline, clipboard, clipboardOutline, moonOutline, sunnyOutline} from 'ionicons/icons';
 import './Menu.css';
-import React, {useState} from "react";
+import React from "react";
 import {Plugins} from '@capacitor/core';
 
 interface AppPage {
@@ -38,47 +38,60 @@ const appPages: AppPage[] = [
     mdIcon: clipboard
   },
 ];
+type ThemeState = {
+  dark: boolean;
+}
+const { Storage } = Plugins;
 
-const Menu: React.FC = () => {
-  const location = useLocation();
-  const { Storage } = Plugins;
-  const [themeFlag, setThemeFlag] = useState(false);
-  Storage.get({key: 'theme'}).then((data)=>{
-    setThemeFlag(data.value === 'true');
-  });
-  const toggleTheme = () => {
-    setThemeFlag((theme: boolean) => {
-      const flag: boolean = !theme;
-      Storage.set({key: 'theme', value: flag.toString()});
-      document.body.classList.toggle('dark', flag);
-      return flag;
+class Menu extends React.Component<any, ThemeState> {
+  constructor(props: any) {
+    super(props);
+    Storage.get({key: 'theme'}).then((data) => {
+      const flag: boolean = data.value === 'true';
+      this.setTheme(flag)
+      this.setState({dark: flag});
     });
   }
-  return (
-    <IonMenu contentId="main" type="overlay">
-      <IonContent>
-        <IonList id="menu-list">
-          <IonListHeader>
-            MY RESTAURANT
-            <IonButton className="dark-btn" onClick={toggleTheme}>
-              <IonIcon slot="icon-only" icon={themeFlag?sunnyOutline:moonOutline}/>
-            </IonButton>
-          </IonListHeader>
-          <IonNote>some@email.com</IonNote>
-          {appPages.map((appPage, index) => {
-            return (
-              <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
-                </IonItem>
-              </IonMenuToggle>
-            );
-          })}
-        </IonList>
-      </IonContent>
-    </IonMenu>
-  );
-};
+  toggleTheme = () => {
+    this.setState((state: ThemeState) => {
+      const flag: boolean = !state.dark;
+      Storage.set({key: 'theme', value: flag.toString()});
+      this.setTheme(flag);
+      return { dark: flag };
+    });
+  }
+  setTheme(flag: boolean){
+    document.body.classList.toggle('dark', flag);
+  }
+  render() {
+    const { location } = this.props;
+    return (
+        <IonMenu contentId="main" type="overlay">
+          <IonContent>
+            <IonList id="menu-list">
+              <IonListHeader>
+                MY RESTAURANT
+                <IonButton className="dark-btn" onClick={this.toggleTheme}>
+                  <IonIcon slot="icon-only" icon={this.state?.dark ? sunnyOutline : moonOutline}/>
+                </IonButton>
+              </IonListHeader>
+              <IonNote>some@email.com</IonNote>
+              {appPages.map((appPage, index) => {
+                return (
+                    <IonMenuToggle key={index} autoHide={false}>
+                      <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url}
+                               routerDirection="none" lines="none" detail={false}>
+                        <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon}/>
+                        <IonLabel>{appPage.title}</IonLabel>
+                      </IonItem>
+                    </IonMenuToggle>
+                );
+              })}
+            </IonList>
+          </IonContent>
+        </IonMenu>
+    );
+  }
+}
 
-export default Menu;
+export default withRouter(Menu);

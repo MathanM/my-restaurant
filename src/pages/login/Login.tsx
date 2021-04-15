@@ -1,22 +1,30 @@
-import {IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar} from '@ionic/react';
 import './Login.css';
+import React, {useContext, useEffect, useState} from "react";
+import {AuthState, onAuthUIStateChange} from '@aws-amplify/ui-components';
+import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
+import { useHistory } from "react-router-dom";
+import {UserContext} from "../../contexts/user.context";
 
 const Login: React.FC = () => {
-    return (
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonMenuButton/>
-                    </IonButtons>
-                    <IonTitle>LOGIN</IonTitle>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent className="ion-padding">
-
-            </IonContent>
-        </IonPage>
-    );
+    const [authState, setAuthState] = useState<AuthState>();
+    const [user, setUser] = useState<object | undefined>();
+    const history = useHistory();
+    const { setIsAuthenticated } = useContext(UserContext);
+    useEffect(() => {
+        return onAuthUIStateChange((nextAuthState, authData) => {
+            setAuthState(nextAuthState);
+            setUser(authData)
+        });
+    }, []);
+    function getAuthComponent(){
+        if(authState === AuthState.SignedIn && user){
+            setIsAuthenticated(true);
+            history.push("/home");
+            return <AmplifySignOut buttonText="Log Out"/>
+        }
+        return <AmplifyAuthenticator/>
+    }
+    return getAuthComponent();
 };
 
 export default Login;

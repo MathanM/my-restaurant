@@ -25,29 +25,38 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import './App.css';
 import Login from "./pages/login/Login";
-import { withAuthenticator } from '@aws-amplify/ui-react'
-
+import RouteGuard from "./components/route-guard/RouteGuard";
+import React, {useState} from "react";
+import { UserContext } from "./contexts/user.context";
 const App: React.FC = () => {
+
+
+  const [isAuthenticated, setIsAuthenticated]= useState(false);
+  const context = { isAuthenticated, setIsAuthenticated }
   return (
     <IonApp>
       <IonReactRouter>
+        <UserContext.Provider value={context}>
         <IonSplitPane contentId="main">
           <Menu />
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/home" />
-            </Route>
-            <Route path="/home" exact={true}>
-              <Home />
-            </Route>
-            <Route path="/recipes" exact={true}>
-              <Recipes />
+              <Redirect to="/login" />
             </Route>
             <Route path="/login" exact={true}>
               <Login />
             </Route>
+            <RouteGuard auth={isAuthenticated}>
+              <Route path="/home" exact={true}>
+                <Home />
+              </Route>
+              <Route path="/recipes" exact={true}>
+                <Recipes />
+              </Route>
+            </RouteGuard>
           </IonRouterOutlet>
         </IonSplitPane>
+        </UserContext.Provider>
       </IonReactRouter>
     </IonApp>
   );

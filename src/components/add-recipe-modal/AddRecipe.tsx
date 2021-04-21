@@ -19,6 +19,7 @@ import React, {useState} from "react";
 import {add, arrowBack, checkmarkOutline, refreshOutline, remove} from "ionicons/icons";
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {RecipeModel} from "../../models/recipe.model";
+import AddIngredient from "../add-ingredient-modal/AddIngredient";
 
 
 const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
@@ -30,6 +31,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
         cuisine: ''
     }
     const [step, setStep] = useState(1);
+    const [showModal, setShowModal] = useState(false);
     const {control, handleSubmit, reset, formState, getValues} = useForm<RecipeModel>({
         defaultValues: initData || initFormValue,
         mode: "onChange",
@@ -53,6 +55,9 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
     }
     const removeStep = () => {
         setStep((step)=> step - 1)
+    }
+    const onModalClose = () => {
+        setShowModal(false);
     }
     return (
         <IonModal isOpen={isOpen} cssClass='flexible-modal'>
@@ -99,7 +104,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                                 rules={{required: true}}
                             />
                         </IonItem>
-                        <IonItem><IonLabel>Ingredients</IonLabel></IonItem>
+                        <IonItem onClick={() => setShowModal(true)}><IonLabel>Ingredients</IonLabel></IonItem>
                         <IonItem><IonLabel>Preparation</IonLabel></IonItem>
                         {getSteps().map(i => (
                             <React.Fragment key={i}>
@@ -125,6 +130,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                         ))}
                     </IonList>
                 </form>
+                <AddIngredient isOpen={showModal} onClose={onModalClose}/>
             </IonContent>
             <IonFooter id="modal-footer">
                 <IonToolbar>

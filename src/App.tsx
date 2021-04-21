@@ -46,7 +46,7 @@ const App: React.FC = () => {
             <Route path="/login" exact={true}>
               <Login />
             </Route>
-            <RouteGuard auth={isAuthenticated}>
+            <RouteGuard auth={true}>
               <Route path="/home" exact={true}>
                 <Home />
               </Route>

@@ -1,0 +1,84 @@
+[
+  {
+    "id": "1",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "description": [
+      "The basmati rice with chicken and vegetables is a combination you will make over and over!. Enjoy rice with roasted vegetables for a complete meal!"
+    ],
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min",
+    "ingredients": [
+      {
+        "id": "ing-1",
+        "quantity": 100,
+        "quantityUnit": "gram"
+      }
+    ],
+    "preparation": {
+      "step1": "In a casserole dish combine the rice and 3 cups water. Cook at 400F for 25-30 minutes (rice is ready when fluffy). Fluff rice, set aside to cool.",
+      "step2": "In a skillet with 1 tsp oil cook the chicken until golden and fully cooked. Lightly season with salt and pepper.",
+      "step3": "Remove the chicken from pan. Add 1 Tbsp butter with the carrots. Sauté over medium heat until fully cooked. Remove carrots (add to chicken).",
+      "step4": "Add 1 Tbsp butter and scramble the eggs, stirring as needed.",
+      "step5": "Add the chicken and carrots back to the skillet with garlic, stir to incorporate.",
+      "step6": "Add rice and stir.",
+      "step7": "In a small bowl, combine ingredients for the sauce. Pour sauce into skillet. Add green onion. Fry another 2-3 minutes, stirring as needed. "
+    }
+  },
+  {
+    "id": "2",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min"
+  },
+  {
+    "id": "3",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min"
+  },
+  {
+    "id": "4",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min"
+  },
+  {
+    "id": "5",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min"
+  },
+  {
+    "id": "6",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min"
+  },
+  {
+    "id": "7",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min"
+  },
+  {
+    "id": "8",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min"
+  },
+  {
+    "id": "9",
+    "name": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
+    "duration": "20 min"
+  }
+]

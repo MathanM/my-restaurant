@@ -1,0 +1,11 @@
+{
+  "ing-1": {
+    "id": "ing-1",
+    "name": "BASMATI RICE",
+    "price": 100,
+    "priceUnit": "inr",
+    "quantity": 1,
+    "quantityUnit": "kilogram",
+    "imageUrl": "https://images.freeimages.com/images/large-previews/632/dish-of-rice-ii-1330013.jpg"
+  }
+}

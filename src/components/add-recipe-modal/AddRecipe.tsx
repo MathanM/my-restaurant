@@ -1,7 +1,8 @@
 import {
     IonButton,
     IonButtons,
-    IonContent, IonDatetime,
+    IonContent,
+    IonDatetime,
     IonFooter,
     IonHeader,
     IonIcon,
@@ -10,9 +11,8 @@ import {
     IonLabel,
     IonList,
     IonModal,
-    IonTextarea,
     IonTitle,
-    IonToolbar, useIonPicker
+    IonToolbar
 } from '@ionic/react';
 import './AddRecipe.css';
 import React, {useState} from "react";
@@ -24,11 +24,13 @@ import AddIngredient from "../add-ingredient-modal/AddIngredient";
 
 const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
     const initFormValue: RecipeModel = {
+        id:'',
         name: '',
         duration: '00:00',
         ingredients: [],
         preparation: {},
-        cuisine: ''
+        cuisine: '',
+        imageUrl: ''
     }
     const [step, setStep] = useState(1);
     const [showModal, setShowModal] = useState(false);

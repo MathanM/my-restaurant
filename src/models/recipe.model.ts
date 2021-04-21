@@ -1,16 +1,17 @@
 export type RecipeModel = {
+    id: string;
     name: string;
     duration: string;
-    cuisine: string;
+    imageUrl: string;
     ingredients: Ingredient[];
     preparation: {
         [steps: string]: string;
     };
-    tags?: string[]
+    tags?: string[],
+    cuisine?: string;
 }
 export type Ingredient = {
-    name: string;
+    id: string;
     quantity: number;
     quantityUnit: string;
-    price: number;
 }

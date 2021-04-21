@@ -44,14 +44,14 @@ type ThemeState = {
 const { Storage } = Plugins;
 
 class Menu extends React.Component<any, ThemeState> {
-  constructor(props: any) {
-    super(props);
+  componentDidMount() {
     Storage.get({key: 'theme'}).then((data) => {
       const flag: boolean = data.value === 'true';
       this.setTheme(flag)
       this.setState({dark: flag});
     });
   }
+
   toggleTheme = () => {
     this.setState((state: ThemeState) => {
       const flag: boolean = !state.dark;

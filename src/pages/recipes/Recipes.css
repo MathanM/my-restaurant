@@ -34,6 +34,10 @@
     margin-bottom: -2px;
 }
 
+.recipe-card .rc-badge {
+    margin-top: 6px;
+}
+
 /* Responsive Overrides */
 
 @media (max-width: 380px) {
@@ -48,10 +52,6 @@
 
     .recipe-card .rc-sub-title {
         justify-content: center;
-    }
-
-    .recipe-card .rc-badge {
-        margin-top: 6px;
     }
 }
 

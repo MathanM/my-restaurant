@@ -71,7 +71,7 @@ class Menu extends React.Component<any, ThemeState> {
             <IonList id="menu-list">
               <IonListHeader>
                 MY RESTAURANT
-                <IonButton className="dark-btn" onClick={this.toggleTheme}>
+                <IonButton color="violet" className="dark-btn" onClick={this.toggleTheme}>
                   <IonIcon slot="icon-only" icon={this.state?.dark ? sunnyOutline : moonOutline}/>
                 </IonButton>
               </IonListHeader>

@@ -74,6 +74,20 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-light-contrast-rgb: 0, 0, 0;
     --ion-color-light-shade: #d7d8da;
     --ion-color-light-tint: #f5f6f9;
+
+    --ion-color-pink: #ffdcda;
+    --ion-color-pink-rgb: 255,220,218;
+    --ion-color-pink-contrast: #000000;
+    --ion-color-pink-contrast-rgb: 0,0,0;
+    --ion-color-pink-shade: #e0c2c0;
+    --ion-color-pink-tint: #ffe0de;
+
+    --ion-color-violet: #999CFF;
+    --ion-color-violet-rgb: 153,156,255;
+    --ion-color-violet-contrast: #000000;
+    --ion-color-violet-contrast-rgb: 0,0,0;
+    --ion-color-violet-shade: #8789e0;
+    --ion-color-violet-tint: #a3a6ff;
 }
 
 
@@ -145,6 +159,20 @@ body.dark {
     --ion-color-light-contrast-rgb: 255, 255, 255;
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
+
+    --ion-color-pink: #ffaaa5;
+    --ion-color-pink-rgb: 255,170,165;
+    --ion-color-pink-contrast: #000000;
+    --ion-color-pink-contrast-rgb: 0,0,0;
+    --ion-color-pink-shade: #e09691;
+    --ion-color-pink-tint: #ffb3ae;
+
+    --ion-color-violet: #7b7fff;
+    --ion-color-violet-rgb: 123,127,255;
+    --ion-color-violet-contrast: #000000;
+    --ion-color-violet-contrast-rgb: 0,0,0;
+    --ion-color-violet-shade: #6c70e0;
+    --ion-color-violet-tint: #888cff;
 }
 
 /*
@@ -232,4 +260,22 @@ body.dark {
     --ion-tab-bar-background: #1f1f1f;
 
     --ion-card-background: #1e1e1e;
+}
+
+.ion-color-pink {
+    --ion-color-base: var(--ion-color-pink);
+    --ion-color-base-rgb: var(--ion-color-pink-rgb);
+    --ion-color-contrast: var(--ion-color-pink-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-pink-contrast-rgb);
+    --ion-color-shade: var(--ion-color-pink-shade);
+    --ion-color-tint: var(--ion-color-pink-tint);
+}
+
+.ion-color-violet {
+    --ion-color-base: var(--ion-color-violet);
+    --ion-color-base-rgb: var(--ion-color-violet-rgb);
+    --ion-color-contrast: var(--ion-color-violet-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-violet-contrast-rgb);
+    --ion-color-shade: var(--ion-color-violet-shade);
+    --ion-color-tint: var(--ion-color-violet-tint);
 }

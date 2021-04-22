@@ -1,0 +1,20 @@
+.ing-list{
+    text-align: center;
+}
+.ing-card{
+    display: inline-block;
+    width: 150px;
+    vertical-align: top;
+    margin: 10px;
+    position: relative;
+}
+.ing-card img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 15px;
+}
+.ing-card .ing-sub-title{
+    font-size: 12px;
+}

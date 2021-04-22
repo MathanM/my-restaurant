@@ -1,0 +1,78 @@
+.recipe-detail{
+    position: relative;
+}
+.recipe-detail .rd-content{
+    background: var(--ion-background-color, #fff);
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    margin-top: -30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.recipe-detail .rd-back{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.rd-content .rd-handle{
+    background: var(--ion-color-medium);
+    width: 40px;
+    height: 6px;
+    border-radius: 3px;
+    margin: 8px 0;
+}
+.rd-content h1, .rd-content p{
+    width: 90%;
+    text-align: center;
+}
+.rd-info{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.rd-info .info-slot{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    border-right: 1px solid rgba(var(--ion-color-medium-rgb), 0.4);
+}
+.rd-info .info-slot:last-child{
+    border-right: 0;
+}
+.rd-info .info-slot .info-icon{
+    font-size: 22px;
+    margin-bottom: 7px;
+}
+.rd-info .info-slot .info-sub{
+    font-size: 12px;
+    margin-top: 3px;
+}
+.rd-content .table-style-1{
+    width: 90%;
+    margin: 10px auto;
+    max-width: 500px;
+}
+.rd-steps{
+    width: 92%;
+    max-width: 550px;
+}
+.rd-steps p{
+    font-size: 15px;
+    text-align: left;
+    line-height: 21px;
+    width: auto;
+    color: var(--ion-color-dark-tint);
+    border-left: 2px dashed var(--ion-color-violet);
+    margin: 0 0 0 8px;
+    padding: 10px 0 10px 20px;
+}
+.rd-steps .step-icon{
+    margin-bottom: -5px;
+    margin-right: 10px;
+    font-size: 20px;
+}

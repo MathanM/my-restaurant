@@ -1,6 +1,8 @@
 import {
+    IonAvatar,
     IonButton,
     IonButtons,
+    IonChip,
     IonContent,
     IonDatetime,
     IonFooter,
@@ -18,7 +20,7 @@ import './AddRecipe.css';
 import React, {useState} from "react";
 import {add, arrowBack, checkmarkOutline, refreshOutline, remove} from "ionicons/icons";
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
-import {RecipeModel} from "../../models/recipe.model";
+import {RecipeModel, Result} from "../../models/recipe.model";
 import AddIngredient from "../add-ingredient-modal/AddIngredient";
 
 
@@ -34,6 +36,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
     }
     const [step, setStep] = useState(1);
     const [showModal, setShowModal] = useState(false);
+    const [ingList, setIngList] = useState<Result[]>([]);
     const {control, handleSubmit, reset, formState, getValues} = useForm<RecipeModel>({
         defaultValues: initData || initFormValue,
         mode: "onChange",
@@ -58,15 +61,18 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
     const removeStep = () => {
         setStep((step)=> step - 1)
     }
-    const onModalClose = () => {
+    const onModalClose = (data: Result[]) => {
         setShowModal(false);
+        if(data && data.length > 0){
+            setIngList(data);
+        }
     }
     return (
         <IonModal isOpen={isOpen} cssClass='flexible-modal'>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton onClick={() => {onClose()}}>
+                        <IonButton color="dark" onClick={() => {onClose()}}>
                             <IonIcon slot="icon-only" icon={arrowBack}/>
                         </IonButton>
                     </IonButtons>
@@ -74,11 +80,11 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent className="ion-padding">
+            <IonContent className="ion-padding ar-content">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <IonList>
-                        <IonItem>
-                            <IonLabel position="floating">Name</IonLabel>
+                    <IonList className="form-list">
+                        <IonItem lines="none">
+                            <IonLabel position="stacked">Name</IonLabel>
                             <Controller
                                 name="name"
                                 control={control}
@@ -87,8 +93,8 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                                 rules={{required: true}}
                             />
                         </IonItem>
-                        <IonItem>
-                            <IonLabel position="floating">Cuisine</IonLabel>
+                        <IonItem lines="none">
+                            <IonLabel position="stacked">Cuisine</IonLabel>
                             <Controller
                                 name="cuisine"
                                 control={control}
@@ -97,8 +103,8 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                                 rules={{required: true}}
                             />
                         </IonItem>
-                        <IonItem>
-                            <IonLabel position="floating">Duration (hh:mm)</IonLabel>
+                        <IonItem lines="none">
+                            <IonLabel position="stacked">Duration (hh:mm)</IonLabel>
                             <Controller
                                 name="duration"
                                 control={control}
@@ -106,12 +112,37 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                                 rules={{required: true}}
                             />
                         </IonItem>
-                        <IonItem onClick={() => setShowModal(true)}><IonLabel>Ingredients</IonLabel></IonItem>
-                        <IonItem><IonLabel>Preparation</IonLabel></IonItem>
+                        <IonItem className="mt-10 mb-10" lines="none" onClick={() => setShowModal(true)}>
+                            <IonLabel><strong>Ingredients</strong></IonLabel>
+                            <IonButtons slot="end">
+                                <IonButton className="add-success icn-btn" color="success">
+                                    <IonIcon slot="icon-only" icon={add}/>
+                                </IonButton>
+                            </IonButtons>
+                        </IonItem>
+                        {ingList.length > 0 && <table className="table table-style-1">
+                            <thead>
+                                <tr><th colSpan={2}></th><th className="tc">quantity</th></tr>
+                            </thead>
+                            <tbody>
+                            {ingList.map(item => (
+                                <tr>
+                                    <td className="tc" width="60px">
+                                        <IonAvatar>
+                                            <img src={item.food.image} alt={item.food.label}/>
+                                        </IonAvatar>
+                                    </td>
+                                    <td>{item.food.label}</td>
+                                    <td className="tc">1 Kg</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>}
+                        <IonItem lines="none"><IonLabel><strong>Preparation</strong></IonLabel></IonItem>
                         {getSteps().map(i => (
                             <React.Fragment key={i}>
-                                <IonItem>
-                                    <IonLabel position="floating">Step {i + 1}</IonLabel>
+                                <IonItem lines="none">
+                                    <IonLabel position="stacked">Step {i + 1}</IonLabel>
                                     <Controller
                                         name={`preparation.step${i + 1}` as any}
                                         control={control}
@@ -120,14 +151,15 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                                                                        onIonChange={e => field.onChange(e.detail.value!)}/>}
                                     />
                                 </IonItem>
-                                {i + 1 === step ? (<IonButtons slot="start">
-                                    <IonButton onClick={addStep}>
+
+                                {i + 1 === step ? (<IonItem lines="none"><IonButtons slot="start">
+                                    <IonButton className="add-success icn-btn mr-15" color="success" onClick={addStep}>
                                         <IonIcon slot="icon-only" icon={add}/>
                                     </IonButton>
-                                    {i > 0 ?<IonButton onClick={removeStep}>
+                                    {i > 0 ?<IonButton className="remove-danger icn-btn" color="danger" onClick={removeStep}>
                                         <IonIcon slot="icon-only" icon={remove}/>
                                     </IonButton>: <React.Fragment/>}
-                                </IonButtons>) : <React.Fragment/>}
+                                </IonButtons></IonItem>) : <React.Fragment/>}
                             </React.Fragment>
                         ))}
                     </IonList>
@@ -135,19 +167,29 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                 <AddIngredient isOpen={showModal} onClose={onModalClose}/>
             </IonContent>
             <IonFooter id="modal-footer">
-                <IonToolbar>
-                    <IonButtons slot="primary">
-                        <IonButton size="large" fill="outline" color="medium"
+                <IonToolbar className="tr">
+                    {/*<IonButtons slot="primary">*/}
+                    {/*    <IonButton fill="solid" color="medium"*/}
+                    {/*               onClick={() => onReset()}>*/}
+                    {/*        <IonIcon slot="start" icon={refreshOutline}/>*/}
+                    {/*        RESET*/}
+                    {/*    </IonButton>*/}
+                    {/*    <IonButton fill="solid" disabled={!formState.isValid} onClick={() => onSubmit(getValues())}*/}
+                    {/*               color="violet">*/}
+                    {/*        <IonIcon slot="start" icon={checkmarkOutline}/>*/}
+                    {/*        SAVE*/}
+                    {/*    </IonButton>*/}
+                    {/*</IonButtons>*/}
+                        <IonChip color="medium"
                                    onClick={() => onReset()}>
-                            <IonIcon slot="start" icon={refreshOutline}/>
-                            RESET
-                        </IonButton>
-                        <IonButton disabled={!formState.isValid} onClick={() => onSubmit(getValues())} size="large" fill="outline"
-                                   color="primary">
-                            <IonIcon slot="start" icon={checkmarkOutline}/>
-                            SAVE
-                        </IonButton>
-                    </IonButtons>
+                            <IonIcon icon={refreshOutline}/>
+                            <IonLabel>RESET</IonLabel>
+                        </IonChip>
+                        <IonChip onClick={() => onSubmit(getValues())}
+                                   color="violet">
+                            <IonIcon icon={checkmarkOutline}/>
+                            <IonLabel>SAVE</IonLabel>
+                        </IonChip>
                 </IonToolbar>
             </IonFooter>
         </IonModal>

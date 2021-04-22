@@ -2,67 +2,109 @@ import {
     IonAvatar,
     IonButton,
     IonButtons,
+    IonCard,
+    IonCardHeader,
+    IonCardSubtitle,
     IonContent,
     IonFooter,
     IonHeader,
     IonIcon,
-    IonInput,
     IonItem,
     IonLabel,
     IonList,
-    IonModal, IonSearchbar,
-    IonTextarea,
+    IonModal,
+    IonRippleEffect,
+    IonSearchbar,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
 import './AddIngredient.css';
 import React, {useEffect, useState} from "react";
-import {arrowBack, checkmarkOutline, refreshOutline} from "ionicons/icons";
-import {Controller, SubmitHandler, useForm} from 'react-hook-form';
-import {ShopModel} from "../../models/shop.model";
+import {arrowBack, chevronDown, chevronUp, closeOutline} from "ionicons/icons";
+import {placeHolderImg} from "../../models/constant";
+import {Result} from "../../models/recipe.model";
 
-type Result = {
-    food: {
-        foodId: string;
-        image: string;
-        label: string;
-        categoryLabel: string;
-    }
-}
-const AddIngredient: React.FC<any> = ({isOpen, onClose, initData}) => {
+const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
     const [searchText, setSearchText] = useState('');
     const [result, setResult] = useState<Result[]>([]);
+    const [selectedIng, setSelectedIng] = useState<Result[]>([]);
+    const [showFlag, setShowFlag] = useState(false);
 
     useEffect(()=>{
-        if(searchText.length > 3){
+        if(searchText.length > 2){
             const keyword = encodeURI(searchText);
             fetch(`https://api.edamam.com/api/food-database/v2/parser?ingr=${keyword}&app_id=b0342509&app_key=4848d62a929f76361aa6a3d37cb5ebfb`)
                 .then(res => res.json())
-                .then((res: {parsed: Result[]}) => {
-                    setResult(res.parsed);
+                .then((res: {parsed: Result[], hints: Result[]}) => {
+                    const hints = res.hints.filter(item => !item.food.brand && item.food.categoryLabel === "food")
+                    setResult([...hints]);
                 });
         }
     },[searchText]);
-
+    const onSelectIng = (item: Result) => {
+        setSelectedIng((state) => {
+            return [...state, item]
+        })
+    }
+    const onRemoveIng = (index: number) => {
+        setSelectedIng((state) => {
+            const items = [...state]
+            items.splice(index, 1);
+            return items;
+        })
+    }
+    const toggleFlag = () => {
+        setShowFlag((state) => !state);
+    }
     const renderIngredientList = () => {
         if(result && result.length > 0){
             return (
-                <IonList>
-                    {result.map(item => (
-                        <IonItem key={item.food.foodId}>
-                            <IonAvatar slot="start">
-                                <img src={item.food.image} alt={item.food.label}/>
-                            </IonAvatar>
-                            <IonLabel>
-                                <h2>{item.food.label}</h2>
-                                <p>{item.food.categoryLabel}</p>
-                            </IonLabel>
-                        </IonItem>
+                <IonList className="ing-list">
+                    {result.map((item, index) => (
+                        <IonCard color="pink" className="ing-card ion-activatable" key={index} onClick={onSelectIng.bind(undefined,item)}>
+                            <img src={item.food.image?item.food.image:placeHolderImg} alt={item.food.label}/>
+                            <IonCardHeader>
+                                <IonCardSubtitle className="ing-sub-title">{item.food.label}</IonCardSubtitle>
+                            </IonCardHeader>
+                            <IonRippleEffect/>
+                        </IonCard>
                     ))}
                 </IonList>
             );
         }else{
-            return <div>No Result Found</div>
+            return (
+                <div className="no-data tc">
+                    <img src="assets/icon/cook-no-data.png" alt="no-data"/>
+                    <h3>No Result Found</h3>
+                </div>
+            );
+        }
+    }
+    const renderSelectedIngredient = () => {
+        if(selectedIng && selectedIng.length > 0){
+            return (
+                <IonList>
+                    <IonItem lines="none">
+                        <IonLabel><strong>Selected Items: {selectedIng.length}</strong></IonLabel>
+                        <IonButton mode="ios" color="light" slot="end" onClick={toggleFlag}>
+                            <IonIcon slot="icon-only" icon={showFlag?chevronDown:chevronUp}/>
+                        </IonButton>
+                    </IonItem>
+                    {showFlag && selectedIng.map((item, index) => (
+                        <IonItem key={index} lines="none">
+                            <IonAvatar slot="start">
+                                <img src={item.food.image?item.food.image:placeHolderImg} alt={item.food.label}/>
+                            </IonAvatar>
+                            <IonLabel>
+                                <h2>{item.food.label}</h2>
+                            </IonLabel>
+                            <IonButton mode="ios" color="light" slot="end" onClick={onRemoveIng.bind(undefined, index)}>
+                                <IonIcon slot="icon-only" icon={closeOutline}/>
+                            </IonButton>
+                        </IonItem>
+                    ))}
+                </IonList>
+            );
         }
     }
 
@@ -71,14 +113,15 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose, initData}) => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton onClick={() => {onClose()}}>
+                        <IonButton color="dark" onClick={() => {onClose(selectedIng)}}>
                             <IonIcon slot="icon-only" icon={arrowBack}/>
                         </IonButton>
                     </IonButtons>
                     <IonTitle>ADD INGREDIENTS</IonTitle>
                 </IonToolbar>
                 <IonToolbar>
-                    <IonSearchbar placeholder="Search Ingredients" value={searchText} onIonChange={e => setSearchText(e.detail.value!)} animated />
+                    <IonSearchbar placeholder="Search Ingredients" value={searchText}
+                                  onIonChange={e => setSearchText(e.detail.value!)} animated/>
                 </IonToolbar>
             </IonHeader>
 
@@ -87,9 +130,7 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose, initData}) => {
             </IonContent>
 
             <IonFooter>
-                <IonToolbar>
-                    Search Text: {searchText ?? '(none)'}
-                </IonToolbar>
+                {renderSelectedIngredient()}
             </IonFooter>
         </IonModal>
     );

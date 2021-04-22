@@ -1,14 +1,100 @@
 /* Global styles - Add styles that needs to be affected across pages */
 
 ion-footer#modal-footer ion-toolbar{
-    padding: 8px;
+    padding: 5px;
 }
-ion-footer#modal-footer ion-button {
-    --padding-start: 25px;
-    --padding-end: 25px;
-    --padding-top: 10px;
-    --padding-bottom: 10px;
+ion-footer#modal-footer ion-toolbar ion-button {
+    --padding-start: 20px;
+    --padding-end: 20px;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
     height: auto;
     margin-inline-start: 8px;
     margin-inline-end: 8px;
+    font-size: 14px;
+}
+ion-footer#modal-footer ion-chip{
+    height: 36px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 5px 7px;
+    border: 1px solid;
+}
+.form-list{
+    padding-bottom: 15px;
+}
+.form-list ion-input, .form-list ion-datetime{
+    border: 1px solid var(--ion-color-medium);
+    border-radius: 5px;
+    --padding-start: 10px !important;
+    --padding-end: 10px !important;
+    --padding-top: 10px !important;
+    --padding-bottom: 10px !important;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.form-list .item-has-focus ion-input{
+    border-color: var(--ion-color-primary);
+}
+.table{
+    width: 100%;
+}
+.table .tc{
+    text-align: center;
+}
+.table-style-1{
+    border-collapse: collapse;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.table-style-1 th, .table-style-1 td{
+    padding: 8px;
+}
+.table-style-1 th{
+    color: var(--ion-color-medium);
+    font-size: 14px;
+}
+.table-style-1 td{
+    font-size: 16px;
+    background: var(--ion-color-pink);
+    color: var(--ion-color-pink-contrast);
+    padding: 10px 8px;
+}
+.table-style-1 tbody tr:first-child td:first-child{
+    border-top-left-radius: 15px;
+}
+.table-style-1 tbody tr:first-child td:last-child{
+    border-top-right-radius: 15px;
+}
+.icn-btn{
+    border-radius: 50%;
+}
+.ios .icn-btn{
+    border-radius: 4px;
+}
+.mr-15{
+    margin-right: 15px !important;
+}
+.mt-10{
+    margin-top: 10px !important;
+}
+.mb-10{
+    margin-bottom: 10px !important;
+}
+.tr{
+    text-align: right !important;
+}
+.tc{
+    text-align: center;
+}
+.add-success{
+    background: rgba(var(--ion-color-success-rgb), 0.2);
+}
+.remove-danger{
+    background: rgba(var(--ion-color-danger-rgb), 0.2);
+}
+.no-data img{
+    width: 60%;
+    margin-top: 100px;
 }

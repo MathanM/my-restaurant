@@ -20,17 +20,22 @@ import {add, stopwatchOutline} from "ionicons/icons";
 import React from "react";
 import AddRecipe from "../../components/add-recipe-modal/AddRecipe";
 import {RecipeModel} from "../../models/recipe.model";
+import RecipeDetail from "../../components/recipe-detail-modal/RecipeDetail";
 
 type RecipeState = {
     showModal: boolean;
+    detailModal: boolean;
     recipeList: RecipeModel[];
+    selectedRecipe: RecipeModel | undefined;
 }
 class Recipes extends React.Component<any, RecipeState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            detailModal: false,
             showModal: false,
-            recipeList: []
+            recipeList: [],
+            selectedRecipe: undefined
         };
     }
     onModalClose = (data?: RecipeModel) => {
@@ -38,6 +43,12 @@ class Recipes extends React.Component<any, RecipeState> {
         if(data){
             console.log(data);
         }
+    }
+    openRecipe(recipe: RecipeModel) {
+        this.setState({ detailModal: true, selectedRecipe: recipe });
+    }
+    closeRecipe = () => {
+        this.setState({detailModal: false});
     }
     componentDidMount() {
         this.getRecipeList();
@@ -55,14 +66,14 @@ class Recipes extends React.Component<any, RecipeState> {
             return (
                 <div>
                     {this.state.recipeList.map(recipe => (
-                        <IonCard className="recipe-card" key={recipe.id}>
+                        <IonCard className="recipe-card" key={recipe.id} onClick={() => {this.openRecipe(recipe)}}>
                             <img src={recipe.imageUrl} />
                             <IonCardHeader>
                                 <IonCardTitle className="rc-title">{recipe.name}</IonCardTitle>
                                 <IonCardSubtitle className="rc-sub-title">
                                     <span>{recipe.cuisine}</span>
                                     <span>
-                                        <IonBadge className="rc-badge" color="primary">
+                                        <IonBadge className="rc-badge" color="pink">
                                             <IonIcon className="duration-icon" icon={stopwatchOutline}/>
                                             {recipe.duration}
                                         </IonBadge>
@@ -83,18 +94,19 @@ class Recipes extends React.Component<any, RecipeState> {
                 <IonHeader>
                     <IonToolbar>
                         <IonButtons slot="start">
-                            <IonMenuButton/>
+                            <IonMenuButton color="dark"/>
                         </IonButtons>
                         <IonTitle>RECIPE LIST</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent className="ion-padding">
                     <IonFab vertical="top" horizontal="end" edge slot="fixed">
-                        <IonFabButton onClick={() => this.setState({showModal: true})}>
+                        <IonFabButton color="violet" onClick={() => this.setState({showModal: true})}>
                             <IonIcon icon={add}/>
                         </IonFabButton>
                     </IonFab>
                     <AddRecipe isOpen={this.state.showModal} onClose={this.onModalClose}/>
+                    <RecipeDetail isOpen={this.state.detailModal} onClose={this.closeRecipe} initData={this.state.selectedRecipe}/>
                     {this.renderRecipeList()}
                 </IonContent>
             </IonPage>

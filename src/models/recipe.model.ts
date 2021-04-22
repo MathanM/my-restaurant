@@ -7,11 +7,22 @@ export type RecipeModel = {
     preparation: {
         [steps: string]: string;
     };
-    tags?: string[],
+    tags?: string[];
     cuisine?: string;
+    description?: string[];
 }
 export type Ingredient = {
     id: string;
     quantity: number;
     quantityUnit: string;
+}
+export type Result = {
+    food: {
+        foodId: string;
+        image: string;
+        label: string;
+        categoryLabel: string;
+        brand?: string;
+        isSelected?: boolean;
+    }
 }

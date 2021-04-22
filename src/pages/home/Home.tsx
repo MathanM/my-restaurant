@@ -29,14 +29,14 @@ const Home: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonMenuButton/>
+                        <IonMenuButton color="dark"/>
                     </IonButtons>
                     <IonTitle>SHOPS</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
                 <IonFab vertical="top" horizontal="end" edge slot="fixed">
-                    <IonFabButton onClick={() => setShowModal(true)}>
+                    <IonFabButton color="violet" onClick={() => setShowModal(true)}>
                         <IonIcon icon={add}/>
                     </IonFabButton>
                 </IonFab>

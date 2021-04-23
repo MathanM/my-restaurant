@@ -23,7 +23,7 @@ ion-footer#modal-footer ion-chip{
 .form-list{
     padding-bottom: 15px;
 }
-.form-list ion-input, .form-list ion-datetime{
+.form-list ion-input, .form-list ion-datetime, .form-list ion-textarea{
     border: 1px solid var(--ion-color-medium);
     border-radius: 5px;
     --padding-start: 10px !important;
@@ -34,6 +34,7 @@ ion-footer#modal-footer ion-chip{
     margin-top: 10px;
     margin-bottom: 15px;
 }
+
 .form-list .item-has-focus ion-input{
     border-color: var(--ion-color-primary);
 }
@@ -56,7 +57,7 @@ ion-footer#modal-footer ion-chip{
     font-size: 14px;
 }
 .table-style-1 td{
-    font-size: 16px;
+    font-size: 15px;
     background: var(--ion-color-pink);
     color: var(--ion-color-pink-contrast);
     padding: 10px 8px;
@@ -93,6 +94,12 @@ ion-footer#modal-footer ion-chip{
 }
 .remove-danger{
     background: rgba(var(--ion-color-danger-rgb), 0.2);
+}
+.mini-input, .form-list .mini-input{
+    margin: 0;
+    width: 60px;
+    font-size: 15px;
+    display: inline-block;
 }
 .no-data img{
     width: 60%;

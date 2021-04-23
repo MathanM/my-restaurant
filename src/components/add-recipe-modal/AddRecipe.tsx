@@ -67,6 +67,9 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
             setIngList(data);
         }
     }
+    const onQuantityUpdate = (val: string) => {
+
+    }
     return (
         <IonModal isOpen={isOpen} cssClass='flexible-modal'>
             <IonHeader>
@@ -122,7 +125,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                         </IonItem>
                         {ingList.length > 0 && <table className="table table-style-1">
                             <thead>
-                                <tr><th colSpan={2}></th><th className="tc">quantity</th></tr>
+                                <tr><th colSpan={2}/><th className="tc">quantity</th></tr>
                             </thead>
                             <tbody>
                             {ingList.map(item => (
@@ -133,7 +136,9 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                                         </IonAvatar>
                                     </td>
                                     <td>{item.food.label}</td>
-                                    <td className="tc">1 Kg</td>
+                                    <td className="tc">
+                                        <IonInput className="mini-input" onIonChange={e => onQuantityUpdate(e.detail.value!)}/>
+                                    </td>
                                 </tr>
                             ))}
                             </tbody>
@@ -168,28 +173,16 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
             </IonContent>
             <IonFooter id="modal-footer">
                 <IonToolbar className="tr">
-                    {/*<IonButtons slot="primary">*/}
-                    {/*    <IonButton fill="solid" color="medium"*/}
-                    {/*               onClick={() => onReset()}>*/}
-                    {/*        <IonIcon slot="start" icon={refreshOutline}/>*/}
-                    {/*        RESET*/}
-                    {/*    </IonButton>*/}
-                    {/*    <IonButton fill="solid" disabled={!formState.isValid} onClick={() => onSubmit(getValues())}*/}
-                    {/*               color="violet">*/}
-                    {/*        <IonIcon slot="start" icon={checkmarkOutline}/>*/}
-                    {/*        SAVE*/}
-                    {/*    </IonButton>*/}
-                    {/*</IonButtons>*/}
-                        <IonChip color="medium"
-                                   onClick={() => onReset()}>
-                            <IonIcon icon={refreshOutline}/>
-                            <IonLabel>RESET</IonLabel>
-                        </IonChip>
-                        <IonChip onClick={() => onSubmit(getValues())}
-                                   color="violet">
-                            <IonIcon icon={checkmarkOutline}/>
-                            <IonLabel>SAVE</IonLabel>
-                        </IonChip>
+                    <IonChip color="medium"
+                             onClick={() => onReset()}>
+                        <IonIcon icon={refreshOutline}/>
+                        <IonLabel>RESET</IonLabel>
+                    </IonChip>
+                    <IonChip onClick={() => onSubmit(getValues())}
+                             color="violet">
+                        <IonIcon icon={checkmarkOutline}/>
+                        <IonLabel>SAVE</IonLabel>
+                    </IonChip>
                 </IonToolbar>
             </IonFooter>
         </IonModal>

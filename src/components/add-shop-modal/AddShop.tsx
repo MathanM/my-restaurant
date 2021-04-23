@@ -1,6 +1,7 @@
 import {
     IonButton,
     IonButtons,
+    IonChip,
     IonContent,
     IonFooter,
     IonHeader,
@@ -52,9 +53,9 @@ const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
 
             <IonContent className="ion-padding">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <IonList>
-                        <IonItem>
-                            <IonLabel position="floating">Name</IonLabel>
+                    <IonList className="form-list">
+                        <IonItem lines="none">
+                            <IonLabel position="stacked">Name</IonLabel>
                             <Controller
                                 name="name"
                                 control={control}
@@ -63,8 +64,8 @@ const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
                                 rules={{required: true}}
                             />
                         </IonItem>
-                        <IonItem>
-                            <IonLabel position="floating">Description</IonLabel>
+                        <IonItem lines="none">
+                            <IonLabel position="stacked">Description</IonLabel>
                             <Controller
                                 name="desc"
                                 control={control}
@@ -77,19 +78,17 @@ const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
                 </form>
             </IonContent>
             <IonFooter id="modal-footer">
-                <IonToolbar>
-                    <IonButtons slot="primary">
-                        <IonButton size="large" fill="outline" color="medium"
-                                   onClick={() => onReset()}>
-                            <IonIcon slot="start" icon={refreshOutline}/>
-                            RESET
-                        </IonButton>
-                        <IonButton disabled={!formState.isValid} onClick={() => onSubmit(getValues())} size="large" fill="outline"
-                                   color="primary">
-                            <IonIcon slot="start" icon={checkmarkOutline}/>
-                            SAVE
-                        </IonButton>
-                    </IonButtons>
+                <IonToolbar className="tr">
+                    <IonChip color="medium"
+                             onClick={() => onReset()}>
+                        <IonIcon icon={refreshOutline}/>
+                        <IonLabel>RESET</IonLabel>
+                    </IonChip>
+                    <IonChip onClick={() => onSubmit(getValues())}
+                             color="violet">
+                        <IonIcon icon={checkmarkOutline}/>
+                        <IonLabel>SAVE</IonLabel>
+                    </IonChip>
                 </IonToolbar>
             </IonFooter>
         </IonModal>

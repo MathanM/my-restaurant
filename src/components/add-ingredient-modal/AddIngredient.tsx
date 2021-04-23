@@ -15,6 +15,7 @@ import {
     IonModal,
     IonRippleEffect,
     IonSearchbar,
+    IonText,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
@@ -28,7 +29,7 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
     const [searchText, setSearchText] = useState('');
     const [result, setResult] = useState<Result[]>([]);
     const [selectedIng, setSelectedIng] = useState<Result[]>([]);
-    const [showFlag, setShowFlag] = useState(false);
+    const [showFlag, setShowFlag] = useState(true);
 
     useEffect(()=>{
         if(searchText.length > 2){
@@ -75,7 +76,7 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
             return (
                 <div className="no-data tc">
                     <img src="assets/icon/cook-no-data.png" alt="no-data"/>
-                    <h3>No Result Found</h3>
+                    <IonText color="medium"><h3>{searchText.length > 2?'No Result Found':'Search your Ingredients'}</h3></IonText>
                 </div>
             );
         }

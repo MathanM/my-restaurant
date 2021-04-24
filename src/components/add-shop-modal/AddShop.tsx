@@ -81,7 +81,9 @@ const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
                                 rules={{required: true}}
                             />
                         </IonItem>
-                        <IKContext publicKey="public_X9PMqJ0IH6IDaNZfaD7B/p+93hM=" authen>
+                        <IKContext publicKey="public_X9PMqJ0IH6IDaNZfaD7B/p+93hM="
+                                   urlEndpoint="https://ik.imagekit.io/k4mzfmleb"
+                                   authenticationEndpoint="https://mp2bbr8jt9.execute-api.us-east-2.amazonaws.com/dev/auth">
                             <IKUpload
                                 onError={onError}
                                 onSuccess={onSuccess}

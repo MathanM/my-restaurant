@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/auth",
+            "lambdaFunction": "imageKitAuth",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/auth"
+        }
+    ],
+    "resourceName": "myRestaurantRestApi",
+    "apiName": "myRestaurantRestApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "imageKitAuth"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-myrestaurant-dev-181335-authRole",
+        "unAuthRoleName": "amplify-myrestaurant-dev-181335-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "imageKitAuth",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

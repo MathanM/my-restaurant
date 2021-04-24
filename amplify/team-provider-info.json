@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "myRestaurantAuth": {}
+      },
+      "function": {
+        "imageKitAuth": {
+          "deploymentBucketName": "amplify-myrestaurant-dev-181335-deployment",
+          "s3Key": "amplify-builds/imageKitAuth-326c747069664f384f4a-build.zip"
+        }
       }
     }
   }

@@ -17,7 +17,7 @@ const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData}) => {
                 <div className="rd-content ion-padding">
                     <div className="rd-handle"/>
                     <h1>{recipe.name}</h1>
-                    {recipe.description && recipe.description.map((des, index) => (<p key={index}>{recipe.description}</p>))}
+                    {recipe.description && <p>{recipe.description}</p>}
                     <div className="rd-info">
                         <div className="info-slot">
                             <IonIcon className="info-icon" icon={stopwatch} color="violet" />

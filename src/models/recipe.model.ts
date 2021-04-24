@@ -9,12 +9,14 @@ export type RecipeModel = {
     };
     tags?: string[];
     cuisine?: string;
-    description?: string[];
+    description?: string;
 }
 export type Ingredient = {
     id: string;
     quantity: number;
     quantityUnit: string;
+    image: string;
+    label: string;
 }
 export type Result = {
     food: {
@@ -24,5 +26,6 @@ export type Result = {
         categoryLabel: string;
         brand?: string;
         isSelected?: boolean;
+        quantity: string;
     }
 }

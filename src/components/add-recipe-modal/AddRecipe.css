@@ -7,6 +7,15 @@ td ion-avatar{
     width: 40px;
     height: 40px;
 }
+.tagsItem{
+    margin-top: -15px;
+}
+.tag{
+    margin-left: 5px;
+}
+.tag:first-child{
+    margin-left: 0;
+}
 @media (max-width: 767px) {
     ion-modal.flexible-modal .ion-page{
         justify-content: flex-end;

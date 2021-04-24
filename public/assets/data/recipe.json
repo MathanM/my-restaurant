@@ -3,9 +3,7 @@
     "id": "1",
     "name": "Chicken Fried Rice",
     "cuisine": "Chinese",
-    "description": [
-      "The basmati rice with chicken and vegetables is a combination you will make over and over!. Enjoy rice with roasted vegetables for a complete meal!"
-    ],
+    "description": "The basmati rice with chicken and vegetables is a combination you will make over and over!. Enjoy rice with roasted vegetables for a complete meal!",
     "imageUrl": "https://www.sandyathome.com/wp-content/uploads/2020/11/chicken-65-fried-rice-1536x864.jpg",
     "duration": "20 min",
     "ingredients": [

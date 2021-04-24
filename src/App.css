@@ -35,8 +35,11 @@ ion-footer#modal-footer ion-chip{
     margin-bottom: 15px;
 }
 
-.form-list .item-has-focus ion-input{
+.form-list .item-has-focus ion-input, .form-list .item-has-focus ion-textarea{
     border-color: var(--ion-color-primary);
+}
+.form-list ion-item{
+    --padding-start: 10px;
 }
 .table{
     width: 100%;

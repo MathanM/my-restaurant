@@ -20,6 +20,7 @@ import React from "react";
 import {arrowBack, checkmarkOutline, refreshOutline} from "ionicons/icons";
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {ShopModel} from "../../models/shop.model";
+import { IKImage, IKContext, IKUpload } from "imagekitio-react"
 
 
 const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
@@ -37,6 +38,12 @@ const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
     }
     const onReset = () => {
         reset({});
+    }
+    const onError = (e: any) => {
+        console.log(e);
+    }
+    const onSuccess = (e: any) => {
+        console.log(e);
     }
     return (
         <IonModal isOpen={isOpen} cssClass='flexible-modal'>
@@ -74,6 +81,12 @@ const AddShop: React.FC<any> = ({isOpen, onClose, initData}) => {
                                 rules={{required: true}}
                             />
                         </IonItem>
+                        <IKContext publicKey="public_X9PMqJ0IH6IDaNZfaD7B/p+93hM=" authen>
+                            <IKUpload
+                                onError={onError}
+                                onSuccess={onSuccess}
+                            />
+                        </IKContext>
                     </IonList>
                 </form>
             </IonContent>

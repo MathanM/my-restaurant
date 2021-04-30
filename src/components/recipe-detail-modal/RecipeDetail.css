@@ -16,6 +16,11 @@
     top: 20px;
     left: 20px;
 }
+.recipe-detail .rd-edit{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
 .rd-content .rd-handle{
     background: var(--ion-color-medium);
     width: 40px;

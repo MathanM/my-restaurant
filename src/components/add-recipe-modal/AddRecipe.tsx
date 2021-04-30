@@ -20,7 +20,7 @@ import './AddRecipe.css';
 import React, {useState} from "react";
 import {add, arrowBack, checkmarkOutline, refreshOutline, remove} from "ionicons/icons";
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
-import {RecipeModel, Result} from "../../models/recipe.model";
+import {Ingredient, RecipeModel, Result} from "../../models/recipe.model";
 import AddIngredient from "../add-ingredient-modal/AddIngredient";
 
 const TagController = ({control, transform, name}: any) => (
@@ -36,31 +36,34 @@ const TagController = ({control, transform, name}: any) => (
     />
 );
 
-const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
-    const initFormValue: RecipeModel = {
+const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
+    const initFormValue: RecipeModel = edit && initData? initData:{
         id: '',
         name: '',
         duration: '00:00',
         ingredients: [],
         preparation: {},
         cuisine: '',
-        imageUrl: '',
+        imageUrl: [],
         description: '',
         tags: []
     }
-    const [step, setStep] = useState(1);
-    const [tags, setTags] = useState<string[]>([]);
+    const initStep = edit ? Object.keys(initData.preparation).length : 1;
+    const [step, setStep] = useState(initStep);
+    const initTags = edit && initData.tags ? initData.tags : [];
+    const [tags, setTags] = useState<string[]>(initTags);
     const [showModal, setShowModal] = useState(false);
-    const [ingList, setIngList] = useState<Result[]>([]);
+    const initIngList = edit && initData.ingredients ? initData.ingredients : [];
+    const [ingList, setIngList] = useState<Ingredient[]>(initIngList);
     const {control, handleSubmit, reset, formState, getValues} = useForm<RecipeModel>({
-        defaultValues: initData || initFormValue,
+        defaultValues: initFormValue,
         mode: "onChange",
     });
     const onSubmit: SubmitHandler<RecipeModel> = (formValue: RecipeModel) => {
         formValue.ingredients = ingList.map(ing => {
             let quantity, unit;
-            const quantityMatch = ing.food.quantity.match(new RegExp(/\d+/g));
-            const unitMatch = ing.food.quantity.match(new RegExp(/[a-zA-Z]+/g));
+            const quantityMatch = ing.quantityInput.match(new RegExp(/\d+/g));
+            const unitMatch = ing.quantityInput.match(new RegExp(/[a-zA-Z]+/g));
             if (quantityMatch) {
                 quantity = Number(quantityMatch[0]);
             }
@@ -68,9 +71,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                 unit = unitMatch[0];
             }
             return {
-                id: ing.food.foodId,
-                image: ing.food.image,
-                label: ing.food.label,
+                ...ing,
                 quantity: quantity ? quantity : 0,
                 quantityUnit: unit ? unit : ""
             }
@@ -79,11 +80,9 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
         onReset();
     }
     const onReset = () => {
-        setStep(1);
-        setIngList([]);
-        reset({
-            duration: '00:00'
-        });
+        setStep(initStep);
+        setIngList(initIngList);
+        reset(initFormValue);
     }
 
     function getSteps(): number[] {
@@ -97,14 +96,14 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
     const removeStep = () => {
         setStep((step) => step - 1)
     }
-    const onModalClose = (data: Result[]) => {
+    const onModalClose = (data: Ingredient[]) => {
         setShowModal(false);
         if (data && data.length > 0) {
             setIngList(data);
         }
     }
-    const onQuantityUpdate = (val: string, ing: Result) => {
-        ing.food.quantity = val;
+    const onQuantityUpdate = (val: string, ing: Ingredient) => {
+        ing.quantityInput = val;
         setIngList([...ingList]);
     }
     return (
@@ -118,7 +117,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                             <IonIcon slot="icon-only" icon={arrowBack}/>
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>ADD RECIPE</IonTitle>
+                    <IonTitle>{edit ? "EDIT" : "ADD"} RECIPE</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
@@ -206,12 +205,12 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData}) => {
                                 <tr key={index}>
                                     <td className="tc" width="60px">
                                         <IonAvatar>
-                                            <img src={item.food.image} alt={item.food.label}/>
+                                            <img src={item.imageUrl} alt={item.name}/>
                                         </IonAvatar>
                                     </td>
-                                    <td>{item.food.label}</td>
-                                    <td className="tc">
-                                        <IonInput className="mini-input"
+                                    <td>{item.name}</td>
+                                    <td className="tc" width="80px">
+                                        <IonInput value={item.quantityInput} className="mini-input"
                                                   onIonChange={e => onQuantityUpdate(e.detail.value!, item)}/>
                                     </td>
                                 </tr>

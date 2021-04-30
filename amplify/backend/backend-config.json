@@ -8,29 +8,6 @@
     }
   },
   "api": {
-    "myRestaurantApi": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "API_KEY",
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 365,
-              "description": "api key auth"
-            }
-          },
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-              "userPoolConfig": {
-                "userPoolId": "authmyRestaurantAuth"
-              }
-            }
-          ]
-        }
-      }
-    },
     "myRestaurantRestApi": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
@@ -44,6 +21,22 @@
           ]
         }
       ]
+    },
+    "myRestaurantApi": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 365,
+              "description": "apiKey"
+            }
+          },
+          "additionalAuthenticationProviders": []
+        }
+      }
     }
   },
   "function": {

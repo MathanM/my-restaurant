@@ -1,5 +1,34 @@
-type Todo @model {
+type Recipe @model {
+  id: ID!
+  name: String!
+  duration: String!
+  description: String
+  tags: [String]
+  imageUrl: [String]
+  cuisine: String
+  preparation: [String]
+  ingredients: [IngredientAmount] @connection(name: "RecipeIngredientAmountConnection")
+  status: String
+}
+type Ingredient @model @searchable{
+  id: ID!
+  name: String
+  imageUrl: String
+  status: String
+}
+type IngredientAmount @model {
+  id: ID!
+  RecipeId: ID!
+  ingredientId: ID!
+  quantity: Float
+  quantityUnit: String
+  ingredient: Ingredient @connection(fields:["ingredientId"])
+  recipe: Recipe @connection(name: "RecipeIngredientAmountConnection")
+}
+type Shop @model {
   id: ID!
   name: String!
   description: String
+  imageUrl: String
+  status: String
 }

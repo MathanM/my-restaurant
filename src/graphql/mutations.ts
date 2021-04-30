@@ -2,52 +2,310 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
+export const createRecipe = /* GraphQL */ `
+  mutation CreateRecipe(
+    $input: CreateRecipeInput!
+    $condition: ModelRecipeConditionInput
   ) {
-    createTodo(input: $input, condition: $condition) {
+    createRecipe(input: $input, condition: $condition) {
       id
       name
+      duration
       description
-      _version
-      _deleted
-      _lastChangedAt
+      tags
+      imageUrl
+      cuisine
+      preparation
+      ingredients {
+        items {
+          id
+          RecipeId
+          ingredientId
+          quantity
+          quantityUnit
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      status
       createdAt
       updatedAt
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
+export const updateRecipe = /* GraphQL */ `
+  mutation UpdateRecipe(
+    $input: UpdateRecipeInput!
+    $condition: ModelRecipeConditionInput
   ) {
-    updateTodo(input: $input, condition: $condition) {
+    updateRecipe(input: $input, condition: $condition) {
       id
       name
+      duration
       description
-      _version
-      _deleted
-      _lastChangedAt
+      tags
+      imageUrl
+      cuisine
+      preparation
+      ingredients {
+        items {
+          id
+          RecipeId
+          ingredientId
+          quantity
+          quantityUnit
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      status
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
+export const deleteRecipe = /* GraphQL */ `
+  mutation DeleteRecipe(
+    $input: DeleteRecipeInput!
+    $condition: ModelRecipeConditionInput
   ) {
-    deleteTodo(input: $input, condition: $condition) {
+    deleteRecipe(input: $input, condition: $condition) {
+      id
+      name
+      duration
+      description
+      tags
+      imageUrl
+      cuisine
+      preparation
+      ingredients {
+        items {
+          id
+          RecipeId
+          ingredientId
+          quantity
+          quantityUnit
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createIngredient = /* GraphQL */ `
+  mutation CreateIngredient(
+    $input: CreateIngredientInput!
+    $condition: ModelIngredientConditionInput
+  ) {
+    createIngredient(input: $input, condition: $condition) {
+      id
+      name
+      imageUrl
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateIngredient = /* GraphQL */ `
+  mutation UpdateIngredient(
+    $input: UpdateIngredientInput!
+    $condition: ModelIngredientConditionInput
+  ) {
+    updateIngredient(input: $input, condition: $condition) {
+      id
+      name
+      imageUrl
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteIngredient = /* GraphQL */ `
+  mutation DeleteIngredient(
+    $input: DeleteIngredientInput!
+    $condition: ModelIngredientConditionInput
+  ) {
+    deleteIngredient(input: $input, condition: $condition) {
+      id
+      name
+      imageUrl
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createIngredientAmount = /* GraphQL */ `
+  mutation CreateIngredientAmount(
+    $input: CreateIngredientAmountInput!
+    $condition: ModelIngredientAmountConditionInput
+  ) {
+    createIngredientAmount(input: $input, condition: $condition) {
+      id
+      RecipeId
+      ingredientId
+      quantity
+      quantityUnit
+      ingredient {
+        id
+        name
+        imageUrl
+        status
+        createdAt
+        updatedAt
+      }
+      recipe {
+        id
+        name
+        duration
+        description
+        tags
+        imageUrl
+        cuisine
+        preparation
+        ingredients {
+          nextToken
+        }
+        status
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateIngredientAmount = /* GraphQL */ `
+  mutation UpdateIngredientAmount(
+    $input: UpdateIngredientAmountInput!
+    $condition: ModelIngredientAmountConditionInput
+  ) {
+    updateIngredientAmount(input: $input, condition: $condition) {
+      id
+      RecipeId
+      ingredientId
+      quantity
+      quantityUnit
+      ingredient {
+        id
+        name
+        imageUrl
+        status
+        createdAt
+        updatedAt
+      }
+      recipe {
+        id
+        name
+        duration
+        description
+        tags
+        imageUrl
+        cuisine
+        preparation
+        ingredients {
+          nextToken
+        }
+        status
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteIngredientAmount = /* GraphQL */ `
+  mutation DeleteIngredientAmount(
+    $input: DeleteIngredientAmountInput!
+    $condition: ModelIngredientAmountConditionInput
+  ) {
+    deleteIngredientAmount(input: $input, condition: $condition) {
+      id
+      RecipeId
+      ingredientId
+      quantity
+      quantityUnit
+      ingredient {
+        id
+        name
+        imageUrl
+        status
+        createdAt
+        updatedAt
+      }
+      recipe {
+        id
+        name
+        duration
+        description
+        tags
+        imageUrl
+        cuisine
+        preparation
+        ingredients {
+          nextToken
+        }
+        status
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createShop = /* GraphQL */ `
+  mutation CreateShop(
+    $input: CreateShopInput!
+    $condition: ModelShopConditionInput
+  ) {
+    createShop(input: $input, condition: $condition) {
       id
       name
       description
-      _version
-      _deleted
-      _lastChangedAt
+      imageUrl
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateShop = /* GraphQL */ `
+  mutation UpdateShop(
+    $input: UpdateShopInput!
+    $condition: ModelShopConditionInput
+  ) {
+    updateShop(input: $input, condition: $condition) {
+      id
+      name
+      description
+      imageUrl
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteShop = /* GraphQL */ `
+  mutation DeleteShop(
+    $input: DeleteShopInput!
+    $condition: ModelShopConditionInput
+  ) {
+    deleteShop(input: $input, condition: $condition) {
+      id
+      name
+      description
+      imageUrl
+      status
       createdAt
       updatedAt
     }

@@ -23,26 +23,30 @@ import './AddIngredient.css';
 import React, {useEffect, useState} from "react";
 import {arrowBack, chevronDown, chevronUp, closeOutline} from "ionicons/icons";
 import {placeHolderImg} from "../../models/constant";
-import {Result} from "../../models/recipe.model";
+import {Ingredient} from "../../models/recipe.model";
+import {API, graphqlOperation} from "aws-amplify";
+import {listIngredients} from "../../graphql/queries";
 
 const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
     const [searchText, setSearchText] = useState('');
-    const [result, setResult] = useState<Result[]>([]);
-    const [selectedIng, setSelectedIng] = useState<Result[]>([]);
+    const [result, setResult] = useState<Ingredient[]>([]);
+    const [selectedIng, setSelectedIng] = useState<Ingredient[]>([]);
     const [showFlag, setShowFlag] = useState(true);
 
     useEffect(()=>{
         if(searchText.length > 2){
-            const keyword = encodeURI(searchText);
-            fetch(`https://api.edamam.com/api/food-database/v2/parser?ingr=${keyword}&app_id=b0342509&app_key=4848d62a929f76361aa6a3d37cb5ebfb`)
-                .then(res => res.json())
-                .then((res: {parsed: Result[], hints: Result[]}) => {
-                    const hints = res.hints.filter(item => !item.food.brand && item.food.categoryLabel === "food")
-                    setResult([...hints]);
-                });
+            getIngredientList(searchText)
         }
     },[searchText]);
-    const onSelectIng = (item: Result) => {
+
+    const getIngredientList = async(keyword: string) => {
+        const result: any = await API.graphql(graphqlOperation(listIngredients, {
+            filter: {name: {contains: keyword}},
+            limit: 50
+        }));
+        setResult(result.data.listIngredients.items);
+    }
+    const onSelectIng = (item: Ingredient) => {
         setSelectedIng((state) => {
             return [...state, item]
         })
@@ -59,19 +63,19 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
     }
     const renderIngredientList = () => {
         if(result && result.length > 0){
-            return (
-                <IonList className="ing-list">
-                    {result.map((item, index) => (
-                        <IonCard color="pink" className="ing-card ion-activatable" key={index} onClick={onSelectIng.bind(undefined,item)}>
-                            <img src={item.food.image?item.food.image:placeHolderImg} alt={item.food.label}/>
-                            <IonCardHeader>
-                                <IonCardSubtitle className="ing-sub-title">{item.food.label}</IonCardSubtitle>
-                            </IonCardHeader>
-                            <IonRippleEffect/>
-                        </IonCard>
-                    ))}
-                </IonList>
-            );
+                return (
+                    <IonList className="ing-list">
+                        {result.map((item: any, index: number) => (
+                            <IonCard color="pink" className="ing-card ion-activatable" key={index} onClick={onSelectIng.bind(undefined,item)}>
+                                <img src={item.imageUrl?item.imageUrl:placeHolderImg} alt={item.name}/>
+                                <IonCardHeader>
+                                    <IonCardSubtitle className="ing-sub-title">{item.name}</IonCardSubtitle>
+                                </IonCardHeader>
+                                <IonRippleEffect/>
+                            </IonCard>
+                        ))}
+                    </IonList>
+                );
         }else{
             return (
                 <div className="no-data tc">
@@ -94,10 +98,10 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
                     {showFlag && selectedIng.map((item, index) => (
                         <IonItem key={index} lines="none">
                             <IonAvatar slot="start">
-                                <img src={item.food.image?item.food.image:placeHolderImg} alt={item.food.label}/>
+                                <img src={item.imageUrl?item.imageUrl:placeHolderImg} alt={item.name}/>
                             </IonAvatar>
                             <IonLabel>
-                                <h2>{item.food.label}</h2>
+                                <h2>{item.name}</h2>
                             </IonLabel>
                             <IonButton mode="ios" color="light" slot="end" onClick={onRemoveIng.bind(undefined, index)}>
                                 <IonIcon slot="icon-only" icon={closeOutline}/>

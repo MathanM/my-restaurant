@@ -1,4 +1,4 @@
-type Recipe @model {
+type Recipe @model @searchable{
   id: ID!
   name: String!
   duration: String!

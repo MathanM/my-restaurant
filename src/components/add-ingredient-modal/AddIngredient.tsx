@@ -25,7 +25,7 @@ import {arrowBack, chevronDown, chevronUp, closeOutline} from "ionicons/icons";
 import {placeHolderImg} from "../../models/constant";
 import {Ingredient} from "../../models/recipe.model";
 import {API, graphqlOperation} from "aws-amplify";
-import {listIngredients} from "../../graphql/queries";
+import {searchIngredients} from "../../graphql/queries";
 
 const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
     const [searchText, setSearchText] = useState('');
@@ -40,11 +40,11 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
     },[searchText]);
 
     const getIngredientList = async(keyword: string) => {
-        const result: any = await API.graphql(graphqlOperation(listIngredients, {
-            filter: {name: {contains: keyword}},
+        const result: any = await API.graphql(graphqlOperation(searchIngredients, {
+            filter: {name: {match: keyword}},
             limit: 50
         }));
-        setResult(result.data.listIngredients.items);
+        setResult(result.data.searchIngredients.items);
     }
     const onSelectIng = (item: Ingredient) => {
         setSelectedIng((state) => {

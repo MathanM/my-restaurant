@@ -22,7 +22,7 @@ import AddRecipe from "../../components/add-recipe-modal/AddRecipe";
 import {Ingredient, Preparation, RecipeModel} from "../../models/recipe.model";
 import RecipeDetail from "../../components/recipe-detail-modal/RecipeDetail";
 import {API, graphqlOperation} from "aws-amplify";
-import {createIngredientAmount, createRecipe} from "../../graphql/mutations";
+import {createIngredientAmount, createRecipe, updateRecipe} from "../../graphql/mutations";
 import {listRecipes} from "../../graphql/queries";
 import {ListRecipesQuery} from "../../API";
 import {RecipeItem, RecipeItems} from "../../models/graphql.model";
@@ -47,35 +47,55 @@ class Recipes extends React.Component<any, RecipeState> {
         };
     }
 
-    onModalClose = async (data?: RecipeModel) => {
+    onModalClose = (data?: RecipeModel) => {
         this.setState({showModal: false, edit: false});
         if (data) {
-            const result: any = await API.graphql(graphqlOperation(createRecipe, {
-                input: {
-                    name: data.name,
-                    duration: data.duration,
-                    description: data.description,
-                    tags: data.tags,
-                    cuisine: data.cuisine,
-                    preparation: Object.values(data.preparation)
-                }
-            }));
-            const recipeId = result.data.createRecipe.id;
-            data.ingredients.forEach((ing) => {
-                API.graphql(graphqlOperation(createIngredientAmount, {
-                    input: {
-                        RecipeId: recipeId,
-                        ingredientAmountRecipeId: recipeId,
-                        quantity: ing.quantity,
-                        quantityUnit: ing.quantityUnit,
-                        ingredientId: ing.id
-                    }
-                }))
-            })
+            if(this.state.edit){
+                this.editRecipe(data);
+            }else{
+                this.createRecipe(data);
+            }
+
         }
 
     }
-
+    async editRecipe(data: RecipeModel){
+        const result: any = await API.graphql(graphqlOperation(updateRecipe, {
+            input: {
+                id: data.id,
+                name: data.name,
+                duration: data.duration,
+                description: data.description,
+                tags: data.tags,
+                cuisine: data.cuisine,
+                preparation: Object.values(data.preparation)
+            }
+        }));
+    }
+    async createRecipe(data: RecipeModel){
+        const result: any = await API.graphql(graphqlOperation(createRecipe, {
+            input: {
+                name: data.name,
+                duration: data.duration,
+                description: data.description,
+                tags: data.tags,
+                cuisine: data.cuisine,
+                preparation: Object.values(data.preparation)
+            }
+        }));
+        const recipeId = result.data.createRecipe.id;
+        data.ingredients.forEach((ing) => {
+            API.graphql(graphqlOperation(createIngredientAmount, {
+                input: {
+                    RecipeId: recipeId,
+                    ingredientAmountRecipeId: recipeId,
+                    quantity: ing.quantity,
+                    quantityUnit: ing.quantityUnit,
+                    ingredientId: ing.id
+                }
+            }))
+        })
+    }
     openRecipe(recipe: RecipeItem) {
         let preparation = recipe.preparation?.reduce((acc: Preparation, curVal: string | null, index: number) => {
             if (curVal) acc[`step${index+1}`] = curVal;

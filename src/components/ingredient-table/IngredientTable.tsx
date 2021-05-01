@@ -22,7 +22,7 @@ const IngredientTable: React.FC<IngTable> = ({ingredients, edit, onIngredientUpd
                 <tr key={index}>
                     <td className="tc" width="60px">
                         <IonAvatar>
-                            <img src={item.imageUrl} alt={item.name}/>
+                            <img className="ingImg" src={item.imageUrl} alt={item.name}/>
                         </IonAvatar>
                     </td>
                     <td>{item.name}</td>

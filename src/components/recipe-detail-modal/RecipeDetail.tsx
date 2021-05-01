@@ -1,4 +1,4 @@
-import {IonButton, IonContent, IonIcon, IonModal, IonText} from '@ionic/react';
+import {IonButton, IonContent, IonIcon, IonModal, IonSlide, IonSlides, IonText} from '@ionic/react';
 import './RecipeDetail.css';
 import React from "react";
 import {chevronBackOutline, pencil, pizza, radioButtonOn, starHalf, stopwatch} from "ionicons/icons";
@@ -12,6 +12,18 @@ const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData, onEdit}) => {
         <React.Fragment>
             <IonModal isOpen={isOpen} cssClass='flexible-modal'>
                 {initData && <IonContent className="recipe-detail">
+                    {/* TODO: https://github.com/ionic-team/ionic-framework/issues/19638 */}
+                    <IonSlides
+                        pager={true}
+                        options={{autoHeight: true}}
+                        onIonSlidesDidLoad={function (this: any) {this.update()}}
+                    >
+                        {
+                            recipe.imageUrl && recipe.imageUrl.map((img, index) =>
+                                (img ? <IonSlide key={index}><img src={img} alt={recipe.name}/></IonSlide> :
+                                    <React.Fragment/>))
+                        }
+                    </IonSlides>
                     <IonButton color="light" className="rd-back" onClick={() => {
                         onClose()
                     }}>
@@ -20,10 +32,6 @@ const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData, onEdit}) => {
                     <IonButton color="violet" className="rd-edit" onClick={onEdit}>
                         <IonIcon icon={pencil}/>
                     </IonButton>
-                    {
-                        recipe.imageUrl && recipe.imageUrl.map((img, index) =>
-                            (img ? <img key={index} src={img} alt={recipe.name}/> : <React.Fragment/>))
-                    }
                     <div className="rd-content ion-padding">
                         <div className="rd-handle"/>
                         <h1>{recipe.name}</h1>

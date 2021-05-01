@@ -15,11 +15,19 @@
     position: absolute;
     top: 20px;
     left: 20px;
+    z-index: 2;
 }
 .recipe-detail .rd-edit{
     position: absolute;
     top: 20px;
     right: 20px;
+    z-index: 2;
+}
+.recipe-detail .swiper-container-horizontal>.swiper-pagination-bullets{
+    bottom: 40px;
+}
+.rd-content{
+    z-index: 2;
 }
 .rd-content .rd-handle{
     background: var(--ion-color-medium);

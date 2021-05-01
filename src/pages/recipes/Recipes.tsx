@@ -12,6 +12,7 @@ import {
     IonIcon,
     IonMenuButton,
     IonPage,
+    IonSkeletonText,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
@@ -172,7 +173,26 @@ class Recipes extends React.Component<any, RecipeState> {
                 </div>
             )
         } else {
-            return <div>No Recipes Found</div>
+            return (
+                <div>
+                    {[1,2,3,4,5,6,7,8,9,10,11,12].map(item =>
+                        <IonCard className="recipe-card" key={item}>
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt=""/>
+                            <IonCardHeader>
+                                <IonCardTitle className="rc-title"><IonSkeletonText animated style={{ width: '60%' }} /></IonCardTitle>
+                                <IonCardSubtitle className="rc-sub-title">
+                                    <IonSkeletonText animated style={{ width: '50%' }} />
+                                    <span>
+                                        <IonBadge className="rc-badge" color="pink">
+                                            <IonSkeletonText animated style={{ width: '50px' }} />
+                                        </IonBadge>
+                                    </span>
+                                </IonCardSubtitle>
+                            </IonCardHeader>
+                        </IonCard>
+                    )}
+                </div>
+            )
         }
     }
 

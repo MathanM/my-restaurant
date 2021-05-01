@@ -1,5 +1,5 @@
 import {
-    IonAvatar, IonBadge,
+    IonBadge,
     IonButton,
     IonButtons,
     IonChip,
@@ -12,16 +12,18 @@ import {
     IonItem,
     IonLabel,
     IonList,
-    IonModal, IonTextarea,
+    IonModal,
+    IonTextarea,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
 import './AddRecipe.css';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {add, arrowBack, checkmarkOutline, refreshOutline, remove} from "ionicons/icons";
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
-import {Ingredient, RecipeModel, Result} from "../../models/recipe.model";
+import {Ingredient, RecipeModel} from "../../models/recipe.model";
 import AddIngredient from "../add-ingredient-modal/AddIngredient";
+import IngredientTable from "../ingredient-table/IngredientTable";
 
 const TagController = ({control, transform, name}: any) => (
     <Controller
@@ -48,17 +50,20 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
         description: '',
         tags: []
     }
-    const initStep = edit ? Object.keys(initData.preparation).length : 1;
+    const initStep = edit && initData && initData.preparation ? Object.keys(initData.preparation).length : 1;
     const [step, setStep] = useState(initStep);
-    const initTags = edit && initData.tags ? initData.tags : [];
+    const initTags = edit && initData && initData.tags ? initData.tags : [];
     const [tags, setTags] = useState<string[]>(initTags);
     const [showModal, setShowModal] = useState(false);
-    const initIngList = edit && initData.ingredients ? initData.ingredients : [];
+    const initIngList = edit && initData && initData.ingredients ? initData.ingredients : [];
     const [ingList, setIngList] = useState<Ingredient[]>(initIngList);
     const {control, handleSubmit, reset, formState, getValues} = useForm<RecipeModel>({
         defaultValues: initFormValue,
         mode: "onChange",
     });
+    useEffect(()=>{
+        onReset();
+    },[edit])
     const onSubmit: SubmitHandler<RecipeModel> = (formValue: RecipeModel) => {
         formValue.ingredients = ingList.map(ing => {
             let quantity, unit;
@@ -82,12 +87,12 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
     const onReset = () => {
         setStep(initStep);
         setIngList(initIngList);
+        setTags(initTags);
         reset(initFormValue);
     }
 
     function getSteps(): number[] {
-        // @ts-ignore
-        return [...Array(step).keys()];
+        return Array.from(Array(step).keys());
     }
 
     const addStep = () => {
@@ -193,30 +198,9 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
                                 </IonButton>
                             </IonButtons>
                         </IonItem>
-                        {ingList.length > 0 && <table className="table table-style-1">
-                            <thead>
-                            <tr>
-                                <th colSpan={2}/>
-                                <th className="tc">quantity</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {ingList.map((item, index) => (
-                                <tr key={index}>
-                                    <td className="tc" width="60px">
-                                        <IonAvatar>
-                                            <img src={item.imageUrl} alt={item.name}/>
-                                        </IonAvatar>
-                                    </td>
-                                    <td>{item.name}</td>
-                                    <td className="tc" width="80px">
-                                        <IonInput value={item.quantityInput} className="mini-input"
-                                                  onIonChange={e => onQuantityUpdate(e.detail.value!, item)}/>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>}
+                        {ingList.length > 0 &&
+                            <IngredientTable edit={true} ingredients={ingList} onIngredientUpdate={onQuantityUpdate}/>
+                        }
                         <IonItem lines="none"><IonLabel><strong>Preparation</strong></IonLabel></IonItem>
                         {getSteps().map(i => (
                             <React.Fragment key={i}>
@@ -244,7 +228,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
                         ))}
                     </IonList>
                 </form>
-                <AddIngredient isOpen={showModal} onClose={onModalClose}/>
+                <AddIngredient isOpen={showModal} onClose={onModalClose} />
             </IonContent>
             <IonFooter id="modal-footer">
                 <IonToolbar className="tr">

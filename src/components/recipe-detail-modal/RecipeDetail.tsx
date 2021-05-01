@@ -1,21 +1,13 @@
-import {IonAvatar, IonButton, IonContent, IonIcon, IonInput, IonModal, IonText} from '@ionic/react';
+import {IonButton, IonContent, IonIcon, IonModal, IonText} from '@ionic/react';
 import './RecipeDetail.css';
-import React, {useState} from "react";
+import React from "react";
 import {chevronBackOutline, pencil, pizza, radioButtonOn, starHalf, stopwatch} from "ionicons/icons";
 import {RecipeModel} from "../../models/recipe.model";
-import AddRecipe from "../add-recipe-modal/AddRecipe";
-import {Fragment} from "ionicons/dist/types/stencil-public-runtime";
+import IngredientTable from "../ingredient-table/IngredientTable";
 
 
-const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData}) => {
+const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData, onEdit}) => {
     const recipe: RecipeModel = initData;
-    const [editModal, setEditModal] = useState(false);
-    const onEditClose = () => {
-        setEditModal(false);
-    }
-    const onOpenEdit = () => {
-        setEditModal(true);
-    }
     return (
         <React.Fragment>
             <IonModal isOpen={isOpen} cssClass='flexible-modal'>
@@ -25,7 +17,7 @@ const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData}) => {
                     }}>
                         <IonIcon icon={chevronBackOutline}/>
                     </IonButton>
-                    <IonButton color="violet" className="rd-edit" onClick={onOpenEdit}>
+                    <IonButton color="violet" className="rd-edit" onClick={onEdit}>
                         <IonIcon icon={pencil}/>
                     </IonButton>
                     {
@@ -54,29 +46,7 @@ const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData}) => {
                             </div>
                         </div>
                         <h2>Ingredients</h2>
-                        <table className="table table-style-1">
-                            <thead>
-                            <tr>
-                                <th colSpan={2}/>
-                                <th className="tc">quantity</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {recipe.ingredients.map((item: any, index) => (
-                                <tr key={index}>
-                                    <td className="tc" width="60px">
-                                        <IonAvatar>
-                                            <img src={item.imageUrl} alt={item.name}/>
-                                        </IonAvatar>
-                                    </td>
-                                    <td>{item.name}</td>
-                                    <td className="tc" width="90px">
-                                        {item.quantity} {item.quantityUnit}
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
+                        <IngredientTable ingredients={recipe.ingredients}/>
                         <h2>Recipe</h2>
                         <div className="rd-steps">
                             {recipe.preparation && Object.keys(recipe.preparation).map((step, index) => (
@@ -90,7 +60,6 @@ const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData}) => {
                     </div>
                 </IonContent>}
             </IonModal>
-            <AddRecipe edit={true} isOpen={editModal} onClose={onEditClose} initData={recipe} />
         </React.Fragment>
     );
 };

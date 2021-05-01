@@ -32,12 +32,14 @@ type RecipeState = {
     detailModal: boolean;
     recipeList: RecipeItems;
     selectedRecipe: RecipeModel | undefined;
+    edit: boolean;
 }
 
 class Recipes extends React.Component<any, RecipeState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            edit: false,
             detailModal: false,
             showModal: false,
             recipeList: [],
@@ -46,7 +48,7 @@ class Recipes extends React.Component<any, RecipeState> {
     }
 
     onModalClose = async (data?: RecipeModel) => {
-        this.setState({showModal: false});
+        this.setState({showModal: false, edit: false});
         if (data) {
             const result: any = await API.graphql(graphqlOperation(createRecipe, {
                 input: {
@@ -120,6 +122,10 @@ class Recipes extends React.Component<any, RecipeState> {
         this.setState({recipeList})
     }
 
+    onEditRecipe = () => {
+        this.setState({edit: true, showModal: true});
+    }
+
     renderRecipeList() {
         if (this.state.recipeList && this.state.recipeList.length > 0) {
             return (
@@ -163,13 +169,13 @@ class Recipes extends React.Component<any, RecipeState> {
                 </IonHeader>
                 <IonContent className="ion-padding">
                     <IonFab vertical="top" horizontal="end" edge slot="fixed">
-                        <IonFabButton color="violet" onClick={() => this.setState({showModal: true})}>
+                        <IonFabButton color="violet" onClick={() => this.setState({showModal: true, selectedRecipe: undefined})}>
                             <IonIcon icon={add}/>
                         </IonFabButton>
                     </IonFab>
-                    <AddRecipe isOpen={this.state.showModal} onClose={this.onModalClose}/>
+                    <AddRecipe edit={this.state.edit} isOpen={this.state.showModal} onClose={this.onModalClose} initData={this.state.selectedRecipe}/>
                     <RecipeDetail isOpen={this.state.detailModal} onClose={this.closeRecipe}
-                                  initData={this.state.selectedRecipe}/>
+                                  initData={this.state.selectedRecipe} onEdit={this.onEditRecipe}/>
                     {this.renderRecipeList()}
                 </IonContent>
             </IonPage>

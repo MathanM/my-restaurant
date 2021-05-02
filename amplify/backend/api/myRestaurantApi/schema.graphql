@@ -32,3 +32,14 @@ type Shop @model {
   imageUrl: String
   status: String
 }
+input CreateIngredientAmountInput {
+  id: ID!
+  RecipeId: ID!
+  ingredientId: ID!
+  quantity: Float
+  quantityUnit: String
+  ingredientAmountRecipeId: ID!
+}
+type Mutation {
+  batchAddIngredientAmount(ingredientAmounts: [CreateIngredientAmountInput]): [IngredientAmount]
+}

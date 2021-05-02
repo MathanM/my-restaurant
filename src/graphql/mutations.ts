@@ -2,6 +2,45 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const batchAddIngredientAmount = /* GraphQL */ `
+  mutation BatchAddIngredientAmount(
+    $ingredientAmounts: [CreateIngredientAmountInput]
+  ) {
+    batchAddIngredientAmount(ingredientAmounts: $ingredientAmounts) {
+      id
+      RecipeId
+      ingredientId
+      quantity
+      quantityUnit
+      ingredient {
+        id
+        name
+        imageUrl
+        status
+        createdAt
+        updatedAt
+      }
+      recipe {
+        id
+        name
+        duration
+        description
+        tags
+        imageUrl
+        cuisine
+        preparation
+        ingredients {
+          nextToken
+        }
+        status
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createRecipe = /* GraphQL */ `
   mutation CreateRecipe(
     $input: CreateRecipeInput!

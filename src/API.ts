@@ -2,6 +2,60 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type CreateIngredientAmountInput = {
+  id: string,
+  RecipeId: string,
+  ingredientId: string,
+  quantity?: number | null,
+  quantityUnit?: string | null,
+  ingredientAmountRecipeId: string,
+};
+
+export type IngredientAmount = {
+  __typename: "IngredientAmount",
+  id?: string,
+  RecipeId?: string,
+  ingredientId?: string,
+  quantity?: number | null,
+  quantityUnit?: string | null,
+  ingredient?: Ingredient,
+  recipe?: Recipe,
+  createdAt?: string,
+  updatedAt?: string,
+};
+
+export type Ingredient = {
+  __typename: "Ingredient",
+  id?: string,
+  name?: string | null,
+  imageUrl?: string | null,
+  status?: string | null,
+  createdAt?: string,
+  updatedAt?: string,
+};
+
+export type Recipe = {
+  __typename: "Recipe",
+  id?: string,
+  name?: string,
+  duration?: string,
+  description?: string | null,
+  tags?: Array< string | null > | null,
+  imageUrl?: Array< string | null > | null,
+  cuisine?: string | null,
+  preparation?: Array< string | null > | null,
+  ingredients?: ModelIngredientAmountConnection,
+  status?: string | null,
+  createdAt?: string,
+  updatedAt?: string,
+};
+
+export type ModelIngredientAmountConnection = {
+  __typename: "ModelIngredientAmountConnection",
+  items?:  Array<IngredientAmount | null > | null,
+  nextToken?: string | null,
+};
+
 export type CreateRecipeInput = {
   id?: string | null,
   name: string,
@@ -68,51 +122,6 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Recipe = {
-  __typename: "Recipe",
-  id?: string,
-  name?: string,
-  duration?: string,
-  description?: string | null,
-  tags?: Array< string | null > | null,
-  imageUrl?: Array< string | null > | null,
-  cuisine?: string | null,
-  preparation?: Array< string | null > | null,
-  ingredients?: ModelIngredientAmountConnection,
-  status?: string | null,
-  createdAt?: string,
-  updatedAt?: string,
-};
-
-export type ModelIngredientAmountConnection = {
-  __typename: "ModelIngredientAmountConnection",
-  items?:  Array<IngredientAmount | null > | null,
-  nextToken?: string | null,
-};
-
-export type IngredientAmount = {
-  __typename: "IngredientAmount",
-  id?: string,
-  RecipeId?: string,
-  ingredientId?: string,
-  quantity?: number | null,
-  quantityUnit?: string | null,
-  ingredient?: Ingredient,
-  recipe?: Recipe,
-  createdAt?: string,
-  updatedAt?: string,
-};
-
-export type Ingredient = {
-  __typename: "Ingredient",
-  id?: string,
-  name?: string | null,
-  imageUrl?: string | null,
-  status?: string | null,
-  createdAt?: string,
-  updatedAt?: string,
-};
-
 export type UpdateRecipeInput = {
   id: string,
   name?: string | null,
@@ -154,15 +163,6 @@ export type UpdateIngredientInput = {
 
 export type DeleteIngredientInput = {
   id?: string | null,
-};
-
-export type CreateIngredientAmountInput = {
-  id?: string | null,
-  RecipeId: string,
-  ingredientId: string,
-  quantity?: number | null,
-  quantityUnit?: string | null,
-  ingredientAmountRecipeId?: string | null,
 };
 
 export type ModelIngredientAmountConditionInput = {
@@ -322,14 +322,19 @@ export type ModelShopConnection = {
   nextToken?: string | null,
 };
 
-export type SearchableIngredientFilterInput = {
+export type SearchableRecipeFilterInput = {
   id?: SearchableIDFilterInput | null,
   name?: SearchableStringFilterInput | null,
+  duration?: SearchableStringFilterInput | null,
+  description?: SearchableStringFilterInput | null,
+  tags?: SearchableStringFilterInput | null,
   imageUrl?: SearchableStringFilterInput | null,
+  cuisine?: SearchableStringFilterInput | null,
+  preparation?: SearchableStringFilterInput | null,
   status?: SearchableStringFilterInput | null,
-  and?: Array< SearchableIngredientFilterInput | null > | null,
-  or?: Array< SearchableIngredientFilterInput | null > | null,
-  not?: SearchableIngredientFilterInput | null,
+  and?: Array< SearchableRecipeFilterInput | null > | null,
+  or?: Array< SearchableRecipeFilterInput | null > | null,
+  not?: SearchableRecipeFilterInput | null,
 };
 
 export type SearchableIDFilterInput = {
@@ -366,6 +371,47 @@ export type SearchableStringFilterInput = {
   range?: Array< string | null > | null,
 };
 
+export type SearchableRecipeSortInput = {
+  field?: SearchableRecipeSortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchableRecipeSortableFields {
+  id = "id",
+  name = "name",
+  duration = "duration",
+  description = "description",
+  tags = "tags",
+  imageUrl = "imageUrl",
+  cuisine = "cuisine",
+  preparation = "preparation",
+  status = "status",
+}
+
+
+export enum SearchableSortDirection {
+  asc = "asc",
+  desc = "desc",
+}
+
+
+export type SearchableRecipeConnection = {
+  __typename: "SearchableRecipeConnection",
+  items?:  Array<Recipe | null > | null,
+  nextToken?: string | null,
+  total?: number | null,
+};
+
+export type SearchableIngredientFilterInput = {
+  id?: SearchableIDFilterInput | null,
+  name?: SearchableStringFilterInput | null,
+  imageUrl?: SearchableStringFilterInput | null,
+  status?: SearchableStringFilterInput | null,
+  and?: Array< SearchableIngredientFilterInput | null > | null,
+  or?: Array< SearchableIngredientFilterInput | null > | null,
+  not?: SearchableIngredientFilterInput | null,
+};
+
 export type SearchableIngredientSortInput = {
   field?: SearchableIngredientSortableFields | null,
   direction?: SearchableSortDirection | null,
@@ -379,17 +425,55 @@ export enum SearchableIngredientSortableFields {
 }
 
 
-export enum SearchableSortDirection {
-  asc = "asc",
-  desc = "desc",
-}
-
-
 export type SearchableIngredientConnection = {
   __typename: "SearchableIngredientConnection",
   items?:  Array<Ingredient | null > | null,
   nextToken?: string | null,
   total?: number | null,
+};
+
+export type BatchAddIngredientAmountMutationVariables = {
+  ingredientAmounts?: Array< CreateIngredientAmountInput | null > | null,
+};
+
+export type BatchAddIngredientAmountMutation = {
+  batchAddIngredientAmount?:  Array< {
+    __typename: "IngredientAmount",
+    id: string,
+    RecipeId: string,
+    ingredientId: string,
+    quantity?: number | null,
+    quantityUnit?: string | null,
+    ingredient?:  {
+      __typename: "Ingredient",
+      id: string,
+      name?: string | null,
+      imageUrl?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    recipe?:  {
+      __typename: "Recipe",
+      id: string,
+      name: string,
+      duration: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      imageUrl?: Array< string | null > | null,
+      cuisine?: string | null,
+      preparation?: Array< string | null > | null,
+      ingredients?:  {
+        __typename: "ModelIngredientAmountConnection",
+        nextToken?: string | null,
+      } | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null > | null,
 };
 
 export type CreateRecipeMutationVariables = {
@@ -971,6 +1055,40 @@ export type ListShopsQuery = {
       updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
+  } | null,
+};
+
+export type SearchRecipesQueryVariables = {
+  filter?: SearchableRecipeFilterInput | null,
+  sort?: SearchableRecipeSortInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  from?: number | null,
+};
+
+export type SearchRecipesQuery = {
+  searchRecipes?:  {
+    __typename: "SearchableRecipeConnection",
+    items?:  Array< {
+      __typename: "Recipe",
+      id: string,
+      name: string,
+      duration: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      imageUrl?: Array< string | null > | null,
+      cuisine?: string | null,
+      preparation?: Array< string | null > | null,
+      ingredients?:  {
+        __typename: "ModelIngredientAmountConnection",
+        nextToken?: string | null,
+      } | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+    total?: number | null,
   } | null,
 };
 

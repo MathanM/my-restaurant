@@ -23,10 +23,12 @@ import AddRecipe from "../../components/add-recipe-modal/AddRecipe";
 import {Ingredient, Preparation, RecipeModel} from "../../models/recipe.model";
 import RecipeDetail from "../../components/recipe-detail-modal/RecipeDetail";
 import {API, graphqlOperation} from "aws-amplify";
-import {batchAddIngredientAmount, createIngredientAmount, createRecipe, updateRecipe} from "../../graphql/mutations";
+import {createRecipe, updateRecipe} from "../../graphql/mutations";
 import {listRecipes} from "../../graphql/queries";
 import {ListRecipesQuery} from "../../API";
 import {RecipeItem, RecipeItems} from "../../models/graphql.model";
+import {createIngredients} from "../../services/api.service";
+import {loaderImg} from "../../models/constant";
 
 type RecipeState = {
     showModal: boolean;
@@ -85,27 +87,14 @@ class Recipes extends React.Component<any, RecipeState> {
             }
         }));
         const recipeId = result.data.createRecipe.id;
-        const ingredients = data.ingredients.map((ing) => {
-            return {
-                id:"",
-                RecipeId: recipeId,
-                ingredientAmountRecipeId: recipeId,
-                quantity: ing.quantity,
-                quantityUnit: ing.quantityUnit,
-                ingredientId: ing.id
-            }
-        });
-        const ingResult: any = await API.graphql(graphqlOperation(batchAddIngredientAmount, {
-            ingredientAmounts: ingredients
-        }));
-
+        await createIngredients(data.ingredients,recipeId);
     }
     openRecipe(recipe: RecipeItem) {
         let preparation = recipe.preparation?.reduce((acc: Preparation, curVal: string | null, index: number) => {
             if (curVal) acc[`step${index+1}`] = curVal;
             return acc
         }, {});
-        let ingredients: Ingredient[] = recipe.ingredients.items.map((ing: any) => {
+        let ingredients: Ingredient[] = recipe.ingredients.items?.map((ing: any) => {
             return {
                 id: ing.id,
                 quantity: ing.quantity,
@@ -180,7 +169,7 @@ class Recipes extends React.Component<any, RecipeState> {
                 <div>
                     {[1,2,3,4,5,6,7,8,9,10,11,12].map(item =>
                         <IonCard className="recipe-card" key={item}>
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt=""/>
+                            <img src={loaderImg} alt=""/>
                             <IonCardHeader>
                                 <IonCardTitle className="rc-title"><IonSkeletonText animated style={{ width: '100%' }} /></IonCardTitle>
                                 <IonCardSubtitle className="rc-sub-title">

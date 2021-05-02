@@ -47,8 +47,9 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
         setResult(result.data.searchIngredients.items);
     }
     const onSelectIng = (item: Ingredient) => {
+        const selectedItem = {...item, ingredientId: item.id, id:""};
         setSelectedIng((state) => {
-            return [...state, item]
+            return [...state, selectedItem]
         })
     }
     const onRemoveIng = (index: number) => {
@@ -60,6 +61,16 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
     }
     const toggleFlag = () => {
         setShowFlag((state) => !state);
+    }
+    const reset = () => {
+        setSearchText('');
+        setSelectedIng([]);
+        setResult([]);
+        setShowFlag(false);
+    }
+    const onCloseIng = () => {
+        onClose(selectedIng);
+        reset();
     }
     const renderIngredientList = () => {
         if(result && result.length > 0){
@@ -118,7 +129,7 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton color="dark" onClick={() => {onClose(selectedIng)}}>
+                        <IonButton color="dark" onClick={onCloseIng}>
                             <IonIcon slot="icon-only" icon={arrowBack}/>
                         </IonButton>
                     </IonButtons>

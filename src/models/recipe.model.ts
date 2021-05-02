@@ -13,21 +13,11 @@ export type Preparation = {
     [steps: string]: string;
 }
 export type Ingredient = {
-    id: string;
+    id?: string;
     quantityInput: string;
     quantity: number;
     quantityUnit: string;
     imageUrl: string;
     name: string;
-}
-export type Result = {
-    food: {
-        foodId: string;
-        image: string;
-        label: string;
-        categoryLabel: string;
-        brand?: string;
-        isSelected?: boolean;
-        quantity: string;
-    }
+    ingredientId?: string;
 }

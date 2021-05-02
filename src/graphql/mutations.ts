@@ -12,6 +12,7 @@ export const batchAddIngredientAmount = /* GraphQL */ `
       ingredientId
       quantity
       quantityUnit
+      quantityInput
       ingredient {
         id
         name
@@ -62,6 +63,7 @@ export const createRecipe = /* GraphQL */ `
           ingredientId
           quantity
           quantityUnit
+          quantityInput
           createdAt
           updatedAt
         }
@@ -94,6 +96,7 @@ export const updateRecipe = /* GraphQL */ `
           ingredientId
           quantity
           quantityUnit
+          quantityInput
           createdAt
           updatedAt
         }
@@ -126,6 +129,7 @@ export const deleteRecipe = /* GraphQL */ `
           ingredientId
           quantity
           quantityUnit
+          quantityInput
           createdAt
           updatedAt
         }
@@ -193,6 +197,7 @@ export const createIngredientAmount = /* GraphQL */ `
       ingredientId
       quantity
       quantityUnit
+      quantityInput
       ingredient {
         id
         name
@@ -233,6 +238,7 @@ export const updateIngredientAmount = /* GraphQL */ `
       ingredientId
       quantity
       quantityUnit
+      quantityInput
       ingredient {
         id
         name
@@ -273,6 +279,7 @@ export const deleteIngredientAmount = /* GraphQL */ `
       ingredientId
       quantity
       quantityUnit
+      quantityInput
       ingredient {
         id
         name

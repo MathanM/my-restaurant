@@ -24,6 +24,10 @@ import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {Ingredient, RecipeModel} from "../../models/recipe.model";
 import AddIngredient from "../add-ingredient-modal/AddIngredient";
 import IngredientTable from "../ingredient-table/IngredientTable";
+import {API, graphqlOperation} from "aws-amplify";
+import {deleteIngredientAmount, updateIngredientAmount} from "../../graphql/mutations";
+import {quantityInputConversion, QuantityParams} from "../../services/util.service";
+import {createIngredients} from "../../services/api.service";
 
 const TagController = ({control, transform, name}: any) => (
     <Controller
@@ -66,19 +70,10 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
     },[edit])
     const onSubmit: SubmitHandler<RecipeModel> = (formValue: RecipeModel) => {
         formValue.ingredients = ingList.map(ing => {
-            let quantity, unit;
-            const quantityMatch = ing.quantityInput.match(new RegExp(/\d+/g));
-            const unitMatch = ing.quantityInput.match(new RegExp(/[a-zA-Z]+/g));
-            if (quantityMatch) {
-                quantity = Number(quantityMatch[0]);
-            }
-            if (unitMatch) {
-                unit = unitMatch[0];
-            }
+            const quantityParam: QuantityParams = quantityInputConversion(ing.quantityInput);
             return {
                 ...ing,
-                quantity: quantity ? quantity : 0,
-                quantityUnit: unit ? unit : ""
+                ...quantityParam
             }
         })
         onClose(formValue);
@@ -104,12 +99,36 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
     const onModalClose = (data: Ingredient[]) => {
         setShowModal(false);
         if (data && data.length > 0) {
-            setIngList(data);
+            setIngList(ing => [...ing, ...data]);
+        }
+        if(initData.id){
+            createIngredients(data, initData.id);
         }
     }
-    const onQuantityUpdate = (val: string, ing: Ingredient) => {
+    const onQuantityUpdate = async(val: string, ing: Ingredient) => {
         ing.quantityInput = val;
         setIngList([...ingList]);
+        if(ing.id){
+            const quantityParam: QuantityParams = quantityInputConversion(ing.quantityInput);
+            await API.graphql(graphqlOperation(updateIngredientAmount, {
+                input: {
+                    id: ing.id,
+                    ...quantityParam
+                }
+            }));
+        }
+    }
+    const onRemoveIng = async(ing: Ingredient, index: number) => {
+        const result = [...ingList];
+        result.splice(index,1);
+        setIngList(result);
+        if(ing.id){
+            await API.graphql(graphqlOperation(deleteIngredientAmount, {
+                input: {
+                    id: ing.id
+                }
+            }));
+        }
     }
     return (
         <IonModal isOpen={isOpen} cssClass='flexible-modal'>
@@ -199,7 +218,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
                             </IonButtons>
                         </IonItem>
                         {ingList.length > 0 &&
-                            <IngredientTable edit={true} ingredients={ingList} onIngredientUpdate={onQuantityUpdate}/>
+                            <IngredientTable edit={true} ingredients={ingList} onIngredientUpdate={onQuantityUpdate} onIngredientRemove={onRemoveIng}/>
                         }
                         <IonItem lines="none"><IonLabel><strong>Preparation</strong></IonLabel></IonItem>
                         {getSteps().map(i => (

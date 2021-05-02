@@ -20,6 +20,7 @@ export const onCreateRecipe = /* GraphQL */ `
           ingredientId
           quantity
           quantityUnit
+          quantityInput
           createdAt
           updatedAt
         }
@@ -49,6 +50,7 @@ export const onUpdateRecipe = /* GraphQL */ `
           ingredientId
           quantity
           quantityUnit
+          quantityInput
           createdAt
           updatedAt
         }
@@ -78,6 +80,7 @@ export const onDeleteRecipe = /* GraphQL */ `
           ingredientId
           quantity
           quantityUnit
+          quantityInput
           createdAt
           updatedAt
         }
@@ -133,6 +136,7 @@ export const onCreateIngredientAmount = /* GraphQL */ `
       ingredientId
       quantity
       quantityUnit
+      quantityInput
       ingredient {
         id
         name
@@ -170,6 +174,7 @@ export const onUpdateIngredientAmount = /* GraphQL */ `
       ingredientId
       quantity
       quantityUnit
+      quantityInput
       ingredient {
         id
         name
@@ -207,6 +212,7 @@ export const onDeleteIngredientAmount = /* GraphQL */ `
       ingredientId
       quantity
       quantityUnit
+      quantityInput
       ingredient {
         id
         name

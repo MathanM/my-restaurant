@@ -20,6 +20,7 @@ export const getRecipe = /* GraphQL */ `
           ingredientId
           quantity
           quantityUnit
+          quantityInput
           createdAt
           updatedAt
         }
@@ -49,6 +50,20 @@ export const listRecipes = /* GraphQL */ `
         preparation
         ingredients {
           nextToken
+          items {
+            id
+            RecipeId
+            ingredientId
+            quantity
+            quantityUnit
+            createdAt
+            updatedAt
+            ingredient {
+                id
+                imageUrl
+                name
+            }
+          }
         }
         status
         createdAt
@@ -97,6 +112,7 @@ export const getIngredientAmount = /* GraphQL */ `
       ingredientId
       quantity
       quantityUnit
+      quantityInput
       ingredient {
         id
         name
@@ -143,6 +159,7 @@ export const listIngredientAmounts = /* GraphQL */ `
         ingredientId
         quantity
         quantityUnit
+        quantityInput
         ingredient {
           id
           name

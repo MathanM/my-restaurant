@@ -22,6 +22,7 @@ type IngredientAmount @model {
   ingredientId: ID!
   quantity: Float
   quantityUnit: String
+  quantityInput: String
   ingredient: Ingredient @connection(fields:["ingredientId"])
   recipe: Recipe @connection(name: "RecipeIngredientAmountConnection")
 }

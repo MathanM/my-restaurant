@@ -92,6 +92,9 @@ ion-footer#modal-footer ion-chip{
 .tc{
     text-align: center;
 }
+.vm{
+    vertical-align: middle !important;
+}
 .add-success{
     background: rgba(var(--ion-color-success-rgb), 0.2);
 }

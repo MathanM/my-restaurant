@@ -1,3 +1,13 @@
-.ingImg{
+.ing-img{
     background: #fff;
+}
+.ing-remove{
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 0 10px 0 15px;
+}
+.ing-remove ion-icon{
+    vertical-align: middle;
 }

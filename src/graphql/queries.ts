@@ -49,20 +49,6 @@ export const listRecipes = /* GraphQL */ `
         preparation
         ingredients {
           nextToken
-          items {
-            id
-            RecipeId
-            ingredientId
-            quantity
-            quantityUnit
-            createdAt
-            updatedAt
-            ingredient {
-                id
-                imageUrl
-                name
-            }
-          }
         }
         status
         createdAt
@@ -215,6 +201,42 @@ export const listShops = /* GraphQL */ `
         updatedAt
       }
       nextToken
+    }
+  }
+`;
+export const searchRecipes = /* GraphQL */ `
+  query SearchRecipes(
+    $filter: SearchableRecipeFilterInput
+    $sort: SearchableRecipeSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchRecipes(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        name
+        duration
+        description
+        tags
+        imageUrl
+        cuisine
+        preparation
+        ingredients {
+          nextToken
+        }
+        status
+        createdAt
+        updatedAt
+      }
+      nextToken
+      total
     }
   }
 `;

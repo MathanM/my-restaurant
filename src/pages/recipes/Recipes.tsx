@@ -23,7 +23,7 @@ import AddRecipe from "../../components/add-recipe-modal/AddRecipe";
 import {Ingredient, Preparation, RecipeModel} from "../../models/recipe.model";
 import RecipeDetail from "../../components/recipe-detail-modal/RecipeDetail";
 import {API, graphqlOperation} from "aws-amplify";
-import {createIngredientAmount, createRecipe, updateRecipe} from "../../graphql/mutations";
+import {batchAddIngredientAmount, createIngredientAmount, createRecipe, updateRecipe} from "../../graphql/mutations";
 import {listRecipes} from "../../graphql/queries";
 import {ListRecipesQuery} from "../../API";
 import {RecipeItem, RecipeItems} from "../../models/graphql.model";
@@ -85,17 +85,20 @@ class Recipes extends React.Component<any, RecipeState> {
             }
         }));
         const recipeId = result.data.createRecipe.id;
-        data.ingredients.forEach((ing) => {
-            API.graphql(graphqlOperation(createIngredientAmount, {
-                input: {
-                    RecipeId: recipeId,
-                    ingredientAmountRecipeId: recipeId,
-                    quantity: ing.quantity,
-                    quantityUnit: ing.quantityUnit,
-                    ingredientId: ing.id
-                }
-            }))
-        })
+        const ingredients = data.ingredients.map((ing) => {
+            return {
+                id:"",
+                RecipeId: recipeId,
+                ingredientAmountRecipeId: recipeId,
+                quantity: ing.quantity,
+                quantityUnit: ing.quantityUnit,
+                ingredientId: ing.id
+            }
+        });
+        const ingResult: any = await API.graphql(graphqlOperation(batchAddIngredientAmount, {
+            ingredientAmounts: ingredients
+        }));
+
     }
     openRecipe(recipe: RecipeItem) {
         let preparation = recipe.preparation?.reduce((acc: Preparation, curVal: string | null, index: number) => {
@@ -179,7 +182,7 @@ class Recipes extends React.Component<any, RecipeState> {
                         <IonCard className="recipe-card" key={item}>
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt=""/>
                             <IonCardHeader>
-                                <IonCardTitle className="rc-title"><IonSkeletonText animated style={{ width: '60%' }} /></IonCardTitle>
+                                <IonCardTitle className="rc-title"><IonSkeletonText animated style={{ width: '100%' }} /></IonCardTitle>
                                 <IonCardSubtitle className="rc-sub-title">
                                     <IonSkeletonText animated style={{ width: '50%' }} />
                                     <span>

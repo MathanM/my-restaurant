@@ -101,7 +101,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
         if (data && data.length > 0) {
             setIngList(ing => [...ing, ...data]);
         }
-        if(initData.id){
+        if(initData && initData.id){
             createIngredients(data, initData.id);
         }
     }

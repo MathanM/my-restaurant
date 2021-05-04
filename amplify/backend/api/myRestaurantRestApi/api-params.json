@@ -1,19 +1,19 @@
 {
     "paths": [
         {
-            "name": "/auth",
-            "lambdaFunction": "imageKitAuth",
+            "name": "/image",
+            "lambdaFunction": "imageKit",
             "privacy": {
                 "open": true
             },
-            "policyResourceName": "/auth"
+            "policyResourceName": "/image"
         }
     ],
     "resourceName": "myRestaurantRestApi",
     "apiName": "myRestaurantRestApi",
     "functionArns": [
         {
-            "lambdaFunction": "imageKitAuth"
+            "lambdaFunction": "imageKit"
         }
     ],
     "privacy": {
@@ -25,7 +25,7 @@
     "dependsOn": [
         {
             "category": "function",
-            "resourceName": "imageKitAuth",
+            "resourceName": "imageKit",
             "attributes": [
                 "Name",
                 "Arn"

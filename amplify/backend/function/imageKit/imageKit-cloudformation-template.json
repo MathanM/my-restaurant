@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "imageKitAuth",
+            "imageKit",
             {
               "Fn::Join": [
                 "",
                 [
-                  "imageKitAuth",
+                  "imageKit",
                   "-",
                   {
                     "Ref": "env"
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "myrestaurantLambdaRole99e71203",
+            "myrestaurantLambdaRole3087d50b",
             {
               "Fn::Join": [
                 "",
                 [
-                  "myrestaurantLambdaRole99e71203",
+                  "myrestaurantLambdaRole3087d50b",
                   "-",
                   {
                     "Ref": "env"

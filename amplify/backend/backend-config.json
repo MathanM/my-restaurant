@@ -8,20 +8,6 @@
     }
   },
   "api": {
-    "myRestaurantRestApi": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "imageKitAuth",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
-    },
     "myRestaurantApi": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
@@ -37,14 +23,27 @@
           "additionalAuthenticationProviders": []
         }
       }
+    },
+    "myRestaurantRestApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "imageKit",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "function": {
-    "imageKitAuth": {
+    "imageKit": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
+      "service": "Lambda"
     }
   }
 }

@@ -14,15 +14,15 @@
         },
     
     
-          "functionimageKitAuthName": {
+          "functionimageKitName": {
             "Type": "String",
-            "Default": "functionimageKitAuthName"
+            "Default": "functionimageKitName"
           },
         
           
-          "functionimageKitAuthArn": {
+          "functionimageKitArn": {
             "Type": "String",
-            "Default": "functionimageKitAuthArn"
+            "Default": "functionimageKitArn"
           }
         
           
@@ -90,7 +90,7 @@
             ],
             "paths": {
               
-              "/auth": {
+              "/image": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -176,7 +176,7 @@
                             
                             {
                                 
-                                "Ref": "functionimageKitAuthArn"
+                                "Ref": "functionimageKitArn"
                             },
                             
                             "/invocations"
@@ -189,7 +189,7 @@
                   }
                 }
               },
-              "/auth/{proxy+}": {
+              "/image/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -275,7 +275,7 @@
                           
                           {
                             
-                            "Ref": "functionimageKitAuthArn"
+                            "Ref": "functionimageKitArn"
                           },
                           
                           "/invocations"
@@ -332,12 +332,12 @@
                   
         
         
-        "functionimageKitAuthPermissionmyRestaurantRestApi": {
+        "functionimageKitPermissionmyRestaurantRestApi": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functionimageKitAuthName"
+                        "Ref":  "functionimageKitName"
                     },
                     
                     "Action": "lambda:InvokeFunction",

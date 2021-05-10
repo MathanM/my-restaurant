@@ -136,7 +136,7 @@ const AddIngredient: React.FC<any> = ({isOpen, onClose}) => {
                     <IonTitle>ADD INGREDIENTS</IonTitle>
                 </IonToolbar>
                 <IonToolbar>
-                    <IonSearchbar placeholder="Search Ingredients" value={searchText}
+                    <IonSearchbar debounce={0} placeholder="Search Ingredients" value={searchText}
                                   onIonChange={e => setSearchText(e.detail.value!)} animated/>
                 </IonToolbar>
             </IonHeader>

@@ -24,10 +24,12 @@ import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {Ingredient, RecipeModel} from "../../models/recipe.model";
 import AddIngredient from "../add-ingredient-modal/AddIngredient";
 import IngredientTable from "../ingredient-table/IngredientTable";
-import {API, graphqlOperation} from "aws-amplify";
+import {API, graphqlOperation, Storage} from "aws-amplify";
 import {deleteIngredientAmount, updateIngredientAmount} from "../../graphql/mutations";
 import {quantityInputConversion, QuantityParams} from "../../services/util.service";
 import {createIngredients} from "../../services/api.service";
+import {imageKitUrl} from "../../models/constant";
+
 
 const TagController = ({control, transform, name}: any) => (
     <Controller
@@ -65,15 +67,13 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
         defaultValues: initFormValue,
         mode: "onChange",
     });
-    const [imgList, setImgList] = useState<File[]>([]);
-    const [imgUrlList, setImgUrlList] = useState<string[]>([]);
+    const initImgUrl = edit && initData && initData.imageUrl? initData.imageUrl :[];
+    const [imgUrlList, setImgUrlList] = useState<string[]>(initImgUrl);
+    const [imgDeleteList, setImgDeleteList] = useState<string[]>([]);
+    const [newImgFiles, setNewImgFiles] = useState<File[]>([]);
     useEffect(()=>{
         onReset();
     },[edit]);
-    useEffect(() => {
-        const urls = imgList.map(file => URL.createObjectURL(file));
-        setImgUrlList(urls);
-    }, [imgList])
     const onSubmit: SubmitHandler<RecipeModel> = (formValue: RecipeModel) => {
         formValue.ingredients = ingList.map(ing => {
             const quantityParam: QuantityParams = quantityInputConversion(ing.quantityInput);
@@ -82,6 +82,24 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
                 ...quantityParam
             }
         });
+        const imgUrls: string[] = [];
+        const imgBaseName = formValue.name.replace(/\s/g, '-');
+        newImgFiles.forEach((img, index) => {
+            const imgExt = img.name.split(".").pop();
+            const imgName = imgBaseName + index + "." + imgExt;
+            imgUrls.push(imgName);
+            Storage.put(imgName, img, {
+                progressCallback(progress: any) {
+                    console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+                }
+            });
+        });
+        imgDeleteList.forEach((url) => {
+            Storage.remove(url);
+        });
+        if(imgUrls.length > 0){
+            formValue.imageUrl = imgUrls;
+        }
         onClose(formValue);
         onReset();
     }
@@ -89,7 +107,9 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
         setStep(initStep);
         setIngList(initIngList);
         setTags(initTags);
+        setImgUrlList(initImgUrl);
         reset(initFormValue);
+        setImgDeleteList([]);
     }
 
     function getSteps(): number[] {
@@ -143,9 +163,15 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
                 <input id="ar-file" accept="image/png, image/jpeg" type="file" multiple
                        onChange={(ev) => onFileChange(ev.target.files)}/>
                 <div className="ar-img-container">
-                    {imgUrlList && imgUrlList.map((url, i) =>
+                    {imgUrlList && imgUrlList.map((img, i) =>
                         <div key={i} className="ar-img">
-                            <img src={url} alt=""/>
+                            <img src={imageKitUrl+img} alt=""/>
+                            <div className="ar-img-close" onClick={() => {onDeleteImg(img, i)}}>&times;</div>
+                        </div>
+                    )}
+                    {newImgFiles && newImgFiles.map((img, i) =>
+                        <div key={i} className="ar-img">
+                            <img src={URL.createObjectURL(img)} alt=""/>
                             <div className="ar-img-close" onClick={() => {onRemoveImg(i)}}>&times;</div>
                         </div>
                     )}
@@ -155,15 +181,23 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
     }
     const onFileChange = (files: FileList | null) => {
         if(files){
-            setImgList(state => [...state, ...Array.from(files)]);
+            setNewImgFiles(state => [...state, ...Array.from(files)]);
         }
     }
     const onRemoveImg = (index: number) => {
-        setImgList(state => {
+        setNewImgFiles(state => {
             const list = [...state];
             list.splice(index, 1);
             return list;
         });
+    }
+    const onDeleteImg = (url: string, index: number) => {
+        setImgUrlList(state => {
+            const list = [...state];
+            list.splice(index, 1);
+            return list;
+        });
+        setImgDeleteList(state => [...state, url]);
     }
     return (
         <IonModal isOpen={isOpen} cssClass='flexible-modal'>

@@ -1,4 +1,6 @@
 {
+    "identityPoolName": "myRestaurantAuth_identitypool_1cdfd660",
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "myrest7a748fb8",
     "userPoolName": "myRestaurantUserPool",
     "autoVerifiedAttributes": [
@@ -19,7 +21,7 @@
         "email"
     ],
     "userpoolClientGenerateSecret": false,
-    "userpoolClientRefreshTokenValidity": "2",
+    "userpoolClientRefreshTokenValidity": "365",
     "userpoolClientWriteAttributes": [
         "name",
         "phone_number",
@@ -28,15 +30,17 @@
     ],
     "userpoolClientReadAttributes": [
         "email",
+        "gender",
         "name",
         "phone_number",
-        "picture"
+        "picture",
+        "profile"
     ],
     "userpoolClientLambdaRole": "myRest7a748fb8_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": true,
     "sharedId": "7a748fb8",
     "resourceName": "myRestaurantAuth",
-    "authSelections": "userPoolOnly",
+    "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -64,5 +68,7 @@
         "Ref": "AWS::StackId"
     },
     "permissions": [],
-    "dependsOn": []
+    "dependsOn": [],
+    "thirdPartyAuth": false,
+    "authProviders": []
 }

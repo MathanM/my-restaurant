@@ -18,7 +18,7 @@
       "function": {
         "imageKit": {
           "deploymentBucketName": "amplify-myrestaurant-dev-181335-deployment",
-          "s3Key": "amplify-builds/imageKit-75633038425243433133-build.zip"
+          "s3Key": "amplify-builds/imageKit-4845794a723473724a65-build.zip"
         }
       }
     }

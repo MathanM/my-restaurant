@@ -28,7 +28,7 @@ import {listRecipes} from "../../graphql/queries";
 import {ListRecipesQuery} from "../../API";
 import {RecipeItem, RecipeItems} from "../../models/graphql.model";
 import {createIngredients} from "../../services/api.service";
-import {loaderImg} from "../../models/constant";
+import {imageKitUrl, loaderImg} from "../../models/constant";
 
 type RecipeState = {
     showModal: boolean;
@@ -58,7 +58,6 @@ class Recipes extends React.Component<any, RecipeState> {
             }else{
                 this.createRecipe(data);
             }
-
         }
 
     }
@@ -71,7 +70,8 @@ class Recipes extends React.Component<any, RecipeState> {
                 description: data.description,
                 tags: data.tags,
                 cuisine: data.cuisine,
-                preparation: Object.values(data.preparation)
+                preparation: Object.values(data.preparation),
+                imageUrl: data.imageUrl
             }
         }));
     }
@@ -83,7 +83,8 @@ class Recipes extends React.Component<any, RecipeState> {
                 description: data.description,
                 tags: data.tags,
                 cuisine: data.cuisine,
-                preparation: Object.values(data.preparation)
+                preparation: Object.values(data.preparation),
+                imageUrl: data.imageUrl
             }
         }));
         const recipeId = result.data.createRecipe.id;
@@ -147,7 +148,7 @@ class Recipes extends React.Component<any, RecipeState> {
                         (recipe && <IonCard className="recipe-card" key={recipe.id} onClick={() => {
                             this.openRecipe(recipe)
                         }}>
-                            {recipe.imageUrl && recipe.imageUrl[0] && <img src={recipe.imageUrl[0]} alt={recipe.name}/>}
+                            {recipe.imageUrl && recipe.imageUrl[0] && <img src={imageKitUrl + recipe.imageUrl[0]} alt={recipe.name}/>}
                             <IonCardHeader>
                                 <IonCardTitle className="rc-title">{recipe.name}</IonCardTitle>
                                 <IonCardSubtitle className="rc-sub-title">

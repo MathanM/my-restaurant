@@ -4,6 +4,7 @@ import React from "react";
 import {chevronBackOutline, pencil, pizza, radioButtonOn, starHalf, stopwatch} from "ionicons/icons";
 import {RecipeModel} from "../../models/recipe.model";
 import IngredientTable from "../ingredient-table/IngredientTable";
+import {imageKitUrl} from "../../models/constant";
 
 
 const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData, onEdit}) => {
@@ -20,7 +21,7 @@ const RecipeDetail: React.FC<any> = ({isOpen, onClose, initData, onEdit}) => {
                     >
                         {
                             recipe.imageUrl && recipe.imageUrl.map((img, index) =>
-                                (img ? <IonSlide key={index}><img src={img} alt={recipe.name}/></IonSlide> :
+                                (img ? <IonSlide key={index}><img src={imageKitUrl + img} alt={recipe.name}/></IonSlide> :
                                     <React.Fragment/>))
                         }
                     </IonSlides>

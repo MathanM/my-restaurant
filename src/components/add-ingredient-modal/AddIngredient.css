@@ -16,6 +16,7 @@
     object-fit: cover;
     border-radius: 50%;
     margin-top: 15px;
+    background: white;
 }
 .ing-card .ing-sub-title{
     font-size: 12px;

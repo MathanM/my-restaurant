@@ -65,9 +65,15 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
         defaultValues: initFormValue,
         mode: "onChange",
     });
+    const [imgList, setImgList] = useState<File[]>([]);
+    const [imgUrlList, setImgUrlList] = useState<string[]>([]);
     useEffect(()=>{
         onReset();
-    },[edit])
+    },[edit]);
+    useEffect(() => {
+        const urls = imgList.map(file => URL.createObjectURL(file));
+        setImgUrlList(urls);
+    }, [imgList])
     const onSubmit: SubmitHandler<RecipeModel> = (formValue: RecipeModel) => {
         formValue.ingredients = ingList.map(ing => {
             const quantityParam: QuantityParams = quantityInputConversion(ing.quantityInput);
@@ -75,7 +81,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
                 ...ing,
                 ...quantityParam
             }
-        })
+        });
         onClose(formValue);
         onReset();
     }
@@ -129,6 +135,35 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
                 }
             }));
         }
+    }
+    const getImageUpload = () => {
+        return (
+            <div>
+                <label htmlFor="ar-file" className="ar-upload">Upload Recipe Images</label>
+                <input id="ar-file" accept="image/png, image/jpeg" type="file" multiple
+                       onChange={(ev) => onFileChange(ev.target.files)}/>
+                <div className="ar-img-container">
+                    {imgUrlList && imgUrlList.map((url, i) =>
+                        <div key={i} className="ar-img">
+                            <img src={url} alt=""/>
+                            <div className="ar-img-close" onClick={() => {onRemoveImg(i)}}>&times;</div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
+    const onFileChange = (files: FileList | null) => {
+        if(files){
+            setImgList(state => [...state, ...Array.from(files)]);
+        }
+    }
+    const onRemoveImg = (index: number) => {
+        setImgList(state => {
+            const list = [...state];
+            list.splice(index, 1);
+            return list;
+        });
     }
     return (
         <IonModal isOpen={isOpen} cssClass='flexible-modal'>
@@ -245,6 +280,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
                                 </IonButtons></IonItem>) : <React.Fragment/>}
                             </React.Fragment>
                         ))}
+                        {getImageUpload()}
                     </IonList>
                 </form>
                 <AddIngredient isOpen={showModal} onClose={onModalClose} />

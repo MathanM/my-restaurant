@@ -97,6 +97,7 @@ export const onCreateIngredient = /* GraphQL */ `
     onCreateIngredient {
       id
       name
+      label
       imageUrl
       status
       createdAt
@@ -109,6 +110,7 @@ export const onUpdateIngredient = /* GraphQL */ `
     onUpdateIngredient {
       id
       name
+      label
       imageUrl
       status
       createdAt
@@ -121,6 +123,7 @@ export const onDeleteIngredient = /* GraphQL */ `
     onDeleteIngredient {
       id
       name
+      label
       imageUrl
       status
       createdAt
@@ -140,6 +143,7 @@ export const onCreateIngredientAmount = /* GraphQL */ `
       ingredient {
         id
         name
+        label
         imageUrl
         status
         createdAt
@@ -178,6 +182,7 @@ export const onUpdateIngredientAmount = /* GraphQL */ `
       ingredient {
         id
         name
+        label
         imageUrl
         status
         createdAt
@@ -216,6 +221,7 @@ export const onDeleteIngredientAmount = /* GraphQL */ `
       ingredient {
         id
         name
+        label
         imageUrl
         status
         createdAt

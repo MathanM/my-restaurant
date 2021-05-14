@@ -78,6 +78,7 @@ export const getIngredient = /* GraphQL */ `
     getIngredient(id: $id) {
       id
       name
+      label
       imageUrl
       status
       createdAt
@@ -95,6 +96,7 @@ export const listIngredients = /* GraphQL */ `
       items {
         id
         name
+        label
         imageUrl
         status
         createdAt
@@ -116,6 +118,7 @@ export const getIngredientAmount = /* GraphQL */ `
       ingredient {
         id
         name
+        label
         imageUrl
         status
         createdAt
@@ -163,6 +166,7 @@ export const listIngredientAmounts = /* GraphQL */ `
         ingredient {
           id
           name
+          label
           imageUrl
           status
           createdAt

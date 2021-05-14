@@ -29,6 +29,7 @@ export type Ingredient = {
   __typename: "Ingredient",
   id?: string,
   name?: string | null,
+  label?: string | null,
   imageUrl?: string | null,
   status?: string | null,
   createdAt?: string,
@@ -142,12 +143,14 @@ export type DeleteRecipeInput = {
 export type CreateIngredientInput = {
   id?: string | null,
   name?: string | null,
+  label?: string | null,
   imageUrl?: string | null,
   status?: string | null,
 };
 
 export type ModelIngredientConditionInput = {
   name?: ModelStringInput | null,
+  label?: ModelStringInput | null,
   imageUrl?: ModelStringInput | null,
   status?: ModelStringInput | null,
   and?: Array< ModelIngredientConditionInput | null > | null,
@@ -158,6 +161,7 @@ export type ModelIngredientConditionInput = {
 export type UpdateIngredientInput = {
   id: string,
   name?: string | null,
+  label?: string | null,
   imageUrl?: string | null,
   status?: string | null,
 };
@@ -284,6 +288,7 @@ export type ModelRecipeConnection = {
 export type ModelIngredientFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  label?: ModelStringInput | null,
   imageUrl?: ModelStringInput | null,
   status?: ModelStringInput | null,
   and?: Array< ModelIngredientFilterInput | null > | null,
@@ -326,116 +331,6 @@ export type ModelShopConnection = {
   nextToken?: string | null,
 };
 
-export type SearchableRecipeFilterInput = {
-  id?: SearchableIDFilterInput | null,
-  name?: SearchableStringFilterInput | null,
-  duration?: SearchableStringFilterInput | null,
-  description?: SearchableStringFilterInput | null,
-  tags?: SearchableStringFilterInput | null,
-  imageUrl?: SearchableStringFilterInput | null,
-  cuisine?: SearchableStringFilterInput | null,
-  preparation?: SearchableStringFilterInput | null,
-  status?: SearchableStringFilterInput | null,
-  and?: Array< SearchableRecipeFilterInput | null > | null,
-  or?: Array< SearchableRecipeFilterInput | null > | null,
-  not?: SearchableRecipeFilterInput | null,
-};
-
-export type SearchableIDFilterInput = {
-  ne?: string | null,
-  gt?: string | null,
-  lt?: string | null,
-  gte?: string | null,
-  lte?: string | null,
-  eq?: string | null,
-  match?: string | null,
-  matchPhrase?: string | null,
-  matchPhrasePrefix?: string | null,
-  multiMatch?: string | null,
-  exists?: boolean | null,
-  wildcard?: string | null,
-  regexp?: string | null,
-  range?: Array< string | null > | null,
-};
-
-export type SearchableStringFilterInput = {
-  ne?: string | null,
-  gt?: string | null,
-  lt?: string | null,
-  gte?: string | null,
-  lte?: string | null,
-  eq?: string | null,
-  match?: string | null,
-  matchPhrase?: string | null,
-  matchPhrasePrefix?: string | null,
-  multiMatch?: string | null,
-  exists?: boolean | null,
-  wildcard?: string | null,
-  regexp?: string | null,
-  range?: Array< string | null > | null,
-};
-
-export type SearchableRecipeSortInput = {
-  field?: SearchableRecipeSortableFields | null,
-  direction?: SearchableSortDirection | null,
-};
-
-export enum SearchableRecipeSortableFields {
-  id = "id",
-  name = "name",
-  duration = "duration",
-  description = "description",
-  tags = "tags",
-  imageUrl = "imageUrl",
-  cuisine = "cuisine",
-  preparation = "preparation",
-  status = "status",
-}
-
-
-export enum SearchableSortDirection {
-  asc = "asc",
-  desc = "desc",
-}
-
-
-export type SearchableRecipeConnection = {
-  __typename: "SearchableRecipeConnection",
-  items?:  Array<Recipe | null > | null,
-  nextToken?: string | null,
-  total?: number | null,
-};
-
-export type SearchableIngredientFilterInput = {
-  id?: SearchableIDFilterInput | null,
-  name?: SearchableStringFilterInput | null,
-  imageUrl?: SearchableStringFilterInput | null,
-  status?: SearchableStringFilterInput | null,
-  and?: Array< SearchableIngredientFilterInput | null > | null,
-  or?: Array< SearchableIngredientFilterInput | null > | null,
-  not?: SearchableIngredientFilterInput | null,
-};
-
-export type SearchableIngredientSortInput = {
-  field?: SearchableIngredientSortableFields | null,
-  direction?: SearchableSortDirection | null,
-};
-
-export enum SearchableIngredientSortableFields {
-  id = "id",
-  name = "name",
-  imageUrl = "imageUrl",
-  status = "status",
-}
-
-
-export type SearchableIngredientConnection = {
-  __typename: "SearchableIngredientConnection",
-  items?:  Array<Ingredient | null > | null,
-  nextToken?: string | null,
-  total?: number | null,
-};
-
 export type BatchAddIngredientAmountMutationVariables = {
   ingredientAmounts?: Array< CreateIngredientAmountInput | null > | null,
 };
@@ -453,6 +348,7 @@ export type BatchAddIngredientAmountMutation = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,
@@ -602,6 +498,7 @@ export type CreateIngredientMutation = {
     __typename: "Ingredient",
     id: string,
     name?: string | null,
+    label?: string | null,
     imageUrl?: string | null,
     status?: string | null,
     createdAt: string,
@@ -619,6 +516,7 @@ export type UpdateIngredientMutation = {
     __typename: "Ingredient",
     id: string,
     name?: string | null,
+    label?: string | null,
     imageUrl?: string | null,
     status?: string | null,
     createdAt: string,
@@ -636,6 +534,7 @@ export type DeleteIngredientMutation = {
     __typename: "Ingredient",
     id: string,
     name?: string | null,
+    label?: string | null,
     imageUrl?: string | null,
     status?: string | null,
     createdAt: string,
@@ -661,6 +560,7 @@ export type CreateIngredientAmountMutation = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,
@@ -707,6 +607,7 @@ export type UpdateIngredientAmountMutation = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,
@@ -753,6 +654,7 @@ export type DeleteIngredientAmountMutation = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,
@@ -911,6 +813,7 @@ export type GetIngredientQuery = {
     __typename: "Ingredient",
     id: string,
     name?: string | null,
+    label?: string | null,
     imageUrl?: string | null,
     status?: string | null,
     createdAt: string,
@@ -931,6 +834,7 @@ export type ListIngredientsQuery = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,
@@ -957,6 +861,7 @@ export type GetIngredientAmountQuery = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,
@@ -1006,6 +911,7 @@ export type ListIngredientAmountsQuery = {
         __typename: "Ingredient",
         id: string,
         name?: string | null,
+        label?: string | null,
         imageUrl?: string | null,
         status?: string | null,
         createdAt: string,
@@ -1069,65 +975,6 @@ export type ListShopsQuery = {
       updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
-  } | null,
-};
-
-export type SearchRecipesQueryVariables = {
-  filter?: SearchableRecipeFilterInput | null,
-  sort?: SearchableRecipeSortInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  from?: number | null,
-};
-
-export type SearchRecipesQuery = {
-  searchRecipes?:  {
-    __typename: "SearchableRecipeConnection",
-    items?:  Array< {
-      __typename: "Recipe",
-      id: string,
-      name: string,
-      duration: string,
-      description?: string | null,
-      tags?: Array< string | null > | null,
-      imageUrl?: Array< string | null > | null,
-      cuisine?: string | null,
-      preparation?: Array< string | null > | null,
-      ingredients?:  {
-        __typename: "ModelIngredientAmountConnection",
-        nextToken?: string | null,
-      } | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-    total?: number | null,
-  } | null,
-};
-
-export type SearchIngredientsQueryVariables = {
-  filter?: SearchableIngredientFilterInput | null,
-  sort?: SearchableIngredientSortInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  from?: number | null,
-};
-
-export type SearchIngredientsQuery = {
-  searchIngredients?:  {
-    __typename: "SearchableIngredientConnection",
-    items?:  Array< {
-      __typename: "Ingredient",
-      id: string,
-      name?: string | null,
-      imageUrl?: string | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-    total?: number | null,
   } | null,
 };
 
@@ -1232,6 +1079,7 @@ export type OnCreateIngredientSubscription = {
     __typename: "Ingredient",
     id: string,
     name?: string | null,
+    label?: string | null,
     imageUrl?: string | null,
     status?: string | null,
     createdAt: string,
@@ -1244,6 +1092,7 @@ export type OnUpdateIngredientSubscription = {
     __typename: "Ingredient",
     id: string,
     name?: string | null,
+    label?: string | null,
     imageUrl?: string | null,
     status?: string | null,
     createdAt: string,
@@ -1256,6 +1105,7 @@ export type OnDeleteIngredientSubscription = {
     __typename: "Ingredient",
     id: string,
     name?: string | null,
+    label?: string | null,
     imageUrl?: string | null,
     status?: string | null,
     createdAt: string,
@@ -1276,6 +1126,7 @@ export type OnCreateIngredientAmountSubscription = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,
@@ -1317,6 +1168,7 @@ export type OnUpdateIngredientAmountSubscription = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,
@@ -1358,6 +1210,7 @@ export type OnDeleteIngredientAmountSubscription = {
       __typename: "Ingredient",
       id: string,
       name?: string | null,
+      label?: string | null,
       imageUrl?: string | null,
       status?: string | null,
       createdAt: string,

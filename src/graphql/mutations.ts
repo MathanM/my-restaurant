@@ -16,6 +16,7 @@ export const batchAddIngredientAmount = /* GraphQL */ `
       ingredient {
         id
         name
+        label
         imageUrl
         status
         createdAt
@@ -149,6 +150,7 @@ export const createIngredient = /* GraphQL */ `
     createIngredient(input: $input, condition: $condition) {
       id
       name
+      label
       imageUrl
       status
       createdAt
@@ -164,6 +166,7 @@ export const updateIngredient = /* GraphQL */ `
     updateIngredient(input: $input, condition: $condition) {
       id
       name
+      label
       imageUrl
       status
       createdAt
@@ -179,6 +182,7 @@ export const deleteIngredient = /* GraphQL */ `
     deleteIngredient(input: $input, condition: $condition) {
       id
       name
+      label
       imageUrl
       status
       createdAt
@@ -201,6 +205,7 @@ export const createIngredientAmount = /* GraphQL */ `
       ingredient {
         id
         name
+        label
         imageUrl
         status
         createdAt
@@ -242,6 +247,7 @@ export const updateIngredientAmount = /* GraphQL */ `
       ingredient {
         id
         name
+        label
         imageUrl
         status
         createdAt
@@ -283,6 +289,7 @@ export const deleteIngredientAmount = /* GraphQL */ `
       ingredient {
         id
         name
+        label
         imageUrl
         status
         createdAt

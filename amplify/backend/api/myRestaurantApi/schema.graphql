@@ -1,4 +1,4 @@
-type Recipe @model @searchable{
+type Recipe @model{
   id: ID!
   name: String!
   duration: String!
@@ -10,9 +10,10 @@ type Recipe @model @searchable{
   ingredients: [IngredientAmount] @connection(name: "RecipeIngredientAmountConnection")
   status: String
 }
-type Ingredient @model @searchable{
+type Ingredient @model{
   id: ID!
   name: String
+  label: String
   imageUrl: String
   status: String
 }

@@ -86,7 +86,7 @@ const AddRecipe: React.FC<any> = ({isOpen, onClose, initData, edit}) => {
         const imgBaseName = formValue.name.replace(/\s/g, '-');
         newImgFiles.forEach((img, index) => {
             const imgExt = img.name.split(".").pop();
-            const imgName = imgBaseName + index + "." + imgExt;
+            const imgName = imgBaseName + (initImgUrl.length+index) + "." + imgExt;
             imgUrls.push(imgName);
             Storage.put(imgName, img, {
                 progressCallback(progress: any) {

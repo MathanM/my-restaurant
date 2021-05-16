@@ -9,6 +9,12 @@ export type RecipeModel = {
     cuisine?: string | null | undefined;
     description?: string | null | undefined;
 }
+export type IngredientModel = {
+    id: string,
+    name:string,
+    imageUrl: [],
+    label: []
+}
 export type Preparation = {
     [steps: string]: string;
 }

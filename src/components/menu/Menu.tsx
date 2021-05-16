@@ -37,6 +37,12 @@ const appPages: AppPage[] = [
     iosIcon: clipboardOutline,
     mdIcon: clipboard
   },
+  {
+    title: 'INGREDIENT LIST',
+    url: '/ingredients',
+    iosIcon: clipboardOutline,
+    mdIcon: clipboard
+  },
 ];
 type ThemeState = {
   dark: boolean;

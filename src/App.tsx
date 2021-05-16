@@ -28,6 +28,7 @@ import Login from "./pages/login/Login";
 import RouteGuard from "./components/route-guard/RouteGuard";
 import React, {useState} from "react";
 import { UserContext } from "./contexts/user.context";
+import Ingredients from './pages/ingredients/Ingredients';
 const App: React.FC = () => {
 
 
@@ -52,6 +53,9 @@ const App: React.FC = () => {
               </Route>
               <Route path="/recipes" exact={true}>
                 <Recipes />
+              </Route>
+              <Route path="/ingredients" exact={true}>
+                <Ingredients />
               </Route>
             </RouteGuard>
           </IonRouterOutlet>
